@@ -22,24 +22,42 @@ import { useState } from "react";
 import { ChevronDownIcon } from "lucide-react";
 
 import { Label } from "@/components/ui/label";
-
+import { useLoginMutation } from "@/redux/api/userApi.ts";
+import type { FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
 const Login = () => {
   const [open, setOpen] = useState(false);
-  const [date, setDate] = useState<Date | undefined>(undefined);
-  const [gender, setGender ] = useState<string | undefined>(undefined);
+  const [dob, setDate] = useState<Date | undefined>(undefined);
+  const [gender, setGender ] = useState<string>("");
   const navigate = useNavigate();
+  const [login] = useLoginMutation();
 
   async function loginHandler() {
     try {
       const provider = new GoogleAuthProvider();
       const { user } = await signInWithPopup(auth, provider);
 
-      if (user) {
-        navigate("/");
-        toast.success("Successfully signed in with Google");
+      const res =await  login({
+        _id: user.uid,
+        name: user.displayName!,
+        email: user.email!,
+        gender,
+        dob: String(dob),
+        photo: user.photoURL!
+      });
+
+      if ("data" in res) {
+        // navigate("/");
+        toast.success(`Welcome ${user.displayName}`);
+      } else {
+        const error = res.error as FetchBaseQueryError;
+        const errorMessage =
+          error.data && typeof error.data === "object" && "message" in error.data
+            ? (error.data as { message: string }).message
+            : "An error occurred";
+        toast.error(errorMessage)
       }
     } catch (error) {
-      toast.error("Failed to sign in with Google");
+      toast.error("Failed to sign");
     }
   }
 
@@ -73,7 +91,7 @@ const Login = () => {
                 id="date"
                 className="w-48 justify-between font-normal"
               >
-                {date ? date.toLocaleDateString() : "Select date"}
+                {dob ? dob.toLocaleDateString() : "Select date"}
                 <ChevronDownIcon />
               </Button>
             </PopoverTrigger>
@@ -83,10 +101,10 @@ const Login = () => {
             >
               <Calendar
                 mode="single"
-                selected={date}
+                selected={dob}
                 captionLayout="dropdown"
-                onSelect={(date) => {
-                  setDate(date);
+                onSelect={(dob) => {
+                  setDate(dob);
                   setOpen(false);
                 }}
               />

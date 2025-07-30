@@ -4,8 +4,7 @@ const Home = () => {
   return (
     <>
       <Header />
-
-      <div className="flex items-center justify-center">Hello</div>
+      <div className="flex justify-center  items-center m-auto max-w-[1280px]">Hello Jee</div>
     </>
   );
 };

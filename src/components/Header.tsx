@@ -14,7 +14,7 @@ import { RiAccountCircleFill } from "react-icons/ri";
 
 const Header = () => {
   const user = {
-    _id: "12345",
+    _id: null,
     name: "John Doe",
     email: "john@gmail.com",
   };
