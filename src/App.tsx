@@ -12,6 +12,7 @@ import { userExist, userNotExist } from "./redux/reducer/useReducer";
 import Header from "./components/Header";
 import type { UserReducerInitailState } from "./types/user-reducer";
 import ProtectedRoute from "./components/ProtectedRoute";
+import SearchProduct from "./components/SearchProduct";
 
 function App() {
   const dispatch = useDispatch();
@@ -47,6 +48,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="/search" element={<SearchProduct/>} />
           </Routes>
         </ThemeProvider>
       </BrowserRouter>
