@@ -11,15 +11,28 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { RiAccountCircleFill } from "react-icons/ri";
+import type { User } from "@/types/types";
+import { useCallback } from "react";
+import toast, { Toaster } from "react-hot-toast";
+import { signOut } from "firebase/auth";
+import { auth } from "@/firebase";
 
-const Header = () => {
-  const user = {
-    _id: null,
-    name: "John Doe",
-    email: "john@gmail.com",
-  };
+const Header = ({user}: {user: User | null}) => {
+
+  const logoutHandler  = useCallback(async()=> {
+    try {
+      await signOut(auth)
+      toast.success("SignOut Success")
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      toast.error("SignOut failed")
+    }
+  }, [])
+
+
   return (
-    <div>
+    <>
+    <Toaster position="top-center"/>
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6">
           <Link to="" className="mr-6 hidden lg:flex">
@@ -43,17 +56,16 @@ const Header = () => {
             <ModeToggle />
 
             {/* User Exist or Not */}
-            {user._id ? (
+            {user?._id ? (
               <div className="">
                 <DropdownMenu>
-                  <DropdownMenuTrigger>
+                  <DropdownMenuTrigger asChild>
                     <Button
-                      variant="outline"
                       size="icon"
                       className="relative"
+                      variant={"outline"}
                     >
                       <RiAccountCircleFill className="h-6 w-6" />
-                      <span className="sr-only">Open user menu</span>
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
@@ -61,23 +73,15 @@ const Header = () => {
                     <DropdownMenuSeparator />
                     <DropdownMenuItem>Orders</DropdownMenuItem>
                     <DropdownMenuItem>History</DropdownMenuItem>
-                    <DropdownMenuItem>Logout</DropdownMenuItem>
+                    <DropdownMenuItem onClick={logoutHandler}>Logout</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-              </div>
+              </div> 
             ) : (
               <div className="">
                 <Link to="login">
-                  <Button
-                    variant="outline"
-                    className="justify-self-end px-2 py-1 mr-2  text-xs"
-                  >
-                    Sign in
-                  </Button>
-                </Link>
-                <Link to="login">
                   <Button className="justify-self-end px-2 py-1 text-xs">
-                    Sign Up
+                    login
                   </Button>
                 </Link>
               </div>
@@ -85,7 +89,7 @@ const Header = () => {
           </div>
         </header>
       </div>
-    </div>
+    </>
   );
 };
 

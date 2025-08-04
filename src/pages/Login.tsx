@@ -46,7 +46,7 @@ const Login = () => {
       });
 
       if ("data" in res) {
-        // navigate("/");
+        navigate("/");
         toast.success(`Welcome ${user.displayName}`);
       } else {
         const error = res.error as FetchBaseQueryError;
