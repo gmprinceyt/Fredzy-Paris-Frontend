@@ -49,6 +49,7 @@ function App() {
               }
             />
             <Route path="/search" element={<SearchProduct/>} />
+            <Route path="/cart" element={<SearchProduct/>} />
           </Routes>
         </ThemeProvider>
       </BrowserRouter>
