@@ -1,18 +1,23 @@
 import { BrowserRouter, Routes, Route } from "react-router";
-import Login from "./pages/Login";
 import { ThemeProvider } from "./components/theme-provider";
-import Home from "./pages/Home";
-import { Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import Loading from "./components/Loading";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "./redux/api/userApi";
-import { userExist, userNotExist } from "./redux/reducer/useReducer";
-import Header from "./components/Header";
 import type { UserReducerInitailState } from "./types/user-reducer";
-import ProtectedRoute from "./components/ProtectedRoute";
-import SearchProduct from "./components/SearchProduct";
+import { userExist, userNotExist } from "./redux/reducer/useReducer";
+
+
+
+// Components
+const  Header = lazy( ()=>import("./components/Header"))
+const  Login = lazy( ()=>import("./pages/Login"))
+const  Home = lazy( ()=>import("./pages/Home"))
+const  ProtectedRoute = lazy( ()=>import("./components/ProtectedRoute"))
+const  SearchProduct = lazy( ()=>import("./components/SearchProduct"))
+const  Cart = lazy( ()=>import("./components/Cart"))
 
 function App() {
   const dispatch = useDispatch();
@@ -49,7 +54,7 @@ function App() {
               }
             />
             <Route path="/search" element={<SearchProduct/>} />
-            <Route path="/cart" element={<SearchProduct/>} />
+            <Route path="/cart" element={<Cart/>} />
           </Routes>
         </ThemeProvider>
       </BrowserRouter>

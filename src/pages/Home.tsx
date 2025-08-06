@@ -1,21 +1,23 @@
 import ProductCard from "@/components/ProductCard";
 import { useLatestProductQuery } from "@/redux/api/productApi";
-import { SquareChevronRight } from "lucide-react"
-
+import { SquareChevronRight } from "lucide-react";
 
 const Home = () => {
-  const { data } = useLatestProductQuery("");
+  const { data,  } = useLatestProductQuery("");
 
   function addToCart(id: string) {
     console.log("Added", id);
   }
   return (
-    <div className="flex flex-col  m-auto max-w-[1280px]">
+    <div className="flex flex-col  m-auto max-w-[1280px] px-3">
+
+
+      {/* Latest Products  */}
       <div className="mb-3 flex justify-between">
-        <h1 className="font-bold text-2xl">LATEST PRODUCTS</h1>
+        <h1 className="text-2xl font-[UNITHIN] text-n-500">LATEST PRODUCTS</h1>
         <SquareChevronRight />
       </div>
-      <div className="flex">
+      <div className="flex overflow-x-scroll ">
         {data?.data.map((product) => {
           return (
             <ProductCard
