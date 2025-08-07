@@ -130,9 +130,9 @@
 }
 @font-face {
   font-family: UNIH ;
-  src: url('../public/Font/Uni Sans Heavy.otf');
+  src: url('/Font/Uni Sans Heavy.otf');
 }
 @font-face {
   font-family: UNITHIN ;
-  src: url('../public/Font/Milker.otf');
+  src: url('/Font/Milker.otf');
 }

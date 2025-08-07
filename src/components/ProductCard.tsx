@@ -24,11 +24,11 @@ const ProductCard = ({
 }: Props) => {
   return (
     <Card className="min-w-56 p-0 max-w-64 mr-2 overflow-hidden gap-2 rounded-lg border shadow-sm">
-      <div className="w-64 h-40 overflow-hidden ">
+      <div className="w-full h-40 overflow-hidden ">
         <img
         src={`${server}/${photo}`}
         alt="Product Image"
-        className="h-full w-full object-cover object-center "
+        className="h-full w-full object-contain object-center "
       />
       </div>
       <CardContent className="px-2">

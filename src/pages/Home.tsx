@@ -1,3 +1,4 @@
+import SimpleSlider from "@/components/pages/Slider";
 import ProductCard from "@/components/ProductCard";
 import { useLatestProductQuery } from "@/redux/api/productApi";
 import { SquareChevronRight } from "lucide-react";
@@ -10,6 +11,9 @@ const Home = () => {
   }
   return (
     <div className="flex flex-col  m-auto max-w-[1280px] px-3">
+
+      {/* Slider */}
+      <SimpleSlider />
 
 
       {/* Latest Products  */}
