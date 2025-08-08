@@ -28,14 +28,14 @@ const ProductCard = ({
         <img
         src={`${server}/${photo}`}
         alt="Product Image"
-        className="h-full w-full object-contain object-center "
+        className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
       />
       </div>
       <CardContent className="px-2">
         <div className="">
           <div className="space-y-1">
-            <h3 className="text-lg/5 h-14 font-semibold font-[Milker]">{name.length < 40 ? name : name.slice(0, 40).concat(" ...")}</h3>
-            <p className="text-xs text-muted-foreground font-[Short Stack]">
+            <h3 className="text-base/5 h-9 font-semibold font-[Geist_Mono] ">{name.length < 40 ? name : name.slice(0, 40).concat(" ...")}</h3>
+            <p className="text-xs text-muted-foreground ">
               {discription.length < 100? discription : discription.slice(0, 100).concat(" ...")}
             </p>
           </div>

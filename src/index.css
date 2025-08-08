@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Short+Stack&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -121,18 +121,22 @@
 }
 
 @font-face {
-  font-family: Milker ;
-  src: url('../public/Font/Milker.otf');
+  font-family: Milker;
+  src: url("../public/Font/Milker.otf");
 }
 @font-face {
-  font-family: LOGO ;
-  src: url('../public/Font/priestacy.otf');
+  font-family: LOGO;
+  src: url("../public/Font/priestacy.otf");
 }
 @font-face {
-  font-family: UNIH ;
-  src: url('/Font/Uni Sans Heavy.otf');
+  font-family: UNIH;
+  src: url("../public/Font/Uni Sans Heavy.otf");
 }
 @font-face {
-  font-family: UNITHIN ;
-  src: url('/Font/Milker.otf');
+  font-family: UNITHIN;
+  src: url("../public/Font/Uni Sans Thin.otf");
+}
+
+.product::-webkit-scrollbar {
+  display: none;
 }

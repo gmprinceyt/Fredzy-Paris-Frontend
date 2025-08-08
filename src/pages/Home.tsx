@@ -1,27 +1,26 @@
-import SimpleSlider from "@/components/pages/Slider";
+import CarouselPreview from "@/components/sections/Slider";
 import ProductCard from "@/components/ProductCard";
 import { useLatestProductQuery } from "@/redux/api/productApi";
 import { SquareChevronRight } from "lucide-react";
+import Footer from "@/components/sections/Footer";
 
 const Home = () => {
-  const { data,  } = useLatestProductQuery("");
+  const { data } = useLatestProductQuery("");
 
   function addToCart(id: string) {
     console.log("Added", id);
   }
   return (
     <div className="flex flex-col  m-auto max-w-[1280px] px-3">
-
       {/* Slider */}
-      <SimpleSlider />
-
+      <CarouselPreview />
 
       {/* Latest Products  */}
-      <div className="mb-3 flex justify-between">
+      <div className="mb-3 mt-3 flex justify-between">
         <h1 className="text-2xl font-[UNITHIN] text-n-500">LATEST PRODUCTS</h1>
         <SquareChevronRight />
       </div>
-      <div className="flex overflow-x-scroll ">
+      <div className="flex overflow-x-scroll product ">
         {data?.data.map((product) => {
           return (
             <ProductCard
@@ -37,6 +36,9 @@ const Home = () => {
           );
         })}
       </div>
+      
+        {/* Footer */}
+        <Footer />
     </div>
   );
 };
