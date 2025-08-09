@@ -1,8 +1,10 @@
 import CarouselPreview from "@/components/sections/Slider";
-import ProductCard from "@/components/ProductCard";
 import { useLatestProductQuery } from "@/redux/api/productApi";
 import { SquareChevronRight } from "lucide-react";
 import Footer from "@/components/sections/Footer";
+import ShippingReturns from "@/components/sections/Return";
+import TrustGuarantee from "@/components/sections/Trust";
+import Productlatest from "@/components/sections/Productlatest";
 
 const Home = () => {
   const { data } = useLatestProductQuery("");
@@ -23,7 +25,7 @@ const Home = () => {
       <div className="flex overflow-x-scroll product ">
         {data?.data.map((product) => {
           return (
-            <ProductCard
+            <Productlatest
               key={product._id}
               productId={product._id}
               name={product.name}
@@ -36,9 +38,17 @@ const Home = () => {
           );
         })}
       </div>
+        <div className="mt-4">
+          <TrustGuarantee />
+        </div>
+        <div className="mt-4">
+          <ShippingReturns />
+        </div>
       
         {/* Footer */}
-        <Footer />
+        <div className="mt-4">
+          <Footer />
+        </div>
     </div>
   );
 };

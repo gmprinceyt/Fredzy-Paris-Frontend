@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router";
-import { ThemeProvider } from "./components/theme-provider";
+import { ThemeProvider } from "./components/theme/theme-provider";
 import { lazy, Suspense, useEffect } from "react";
 import Loading from "./components/Loading";
 import { onAuthStateChanged } from "firebase/auth";
@@ -16,8 +16,9 @@ const  Header = lazy( ()=>import("./components/Header"))
 const  Login = lazy( ()=>import("./pages/Login"))
 const  Home = lazy( ()=>import("./pages/Home"))
 const  ProtectedRoute = lazy( ()=>import("./components/ProtectedRoute"))
-const  SearchProduct = lazy( ()=>import("./components/SearchProduct"))
-const  Cart = lazy( ()=>import("./components/Cart"))
+const  SearchProduct = lazy( ()=>import("./pages/SearchProduct"))
+const  Cart = lazy( ()=>import("./pages/Cart"))
+
 
 function App() {
   const dispatch = useDispatch();
@@ -55,6 +56,7 @@ function App() {
             />
             <Route path="/search" element={<SearchProduct/>} />
             <Route path="/cart" element={<Cart/>} />
+            {/* <Route path="/product/:id" element={<ProductCard/>} /> */}
           </Routes>
         </ThemeProvider>
       </BrowserRouter>

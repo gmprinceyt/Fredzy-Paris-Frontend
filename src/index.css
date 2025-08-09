@@ -122,19 +122,19 @@
 
 @font-face {
   font-family: Milker;
-  src: url("../public/Font/Milker.otf");
+  src: url("/public/Font/Milker.otf");
 }
 @font-face {
   font-family: LOGO;
-  src: url("../public/Font/priestacy.otf");
+  src: url("/public/Font/priestacy.otf");
 }
 @font-face {
   font-family: UNIH;
-  src: url("../public/Font/Uni Sans Heavy.otf");
+  src: url("/public/Font/Uni Sans Heavy.otf");
 }
 @font-face {
   font-family: UNITHIN;
-  src: url("../public/Font/Uni Sans Thin.otf");
+  src: url("/public/Font/Uni Sans Thin.otf");
 }
 
 .product::-webkit-scrollbar {

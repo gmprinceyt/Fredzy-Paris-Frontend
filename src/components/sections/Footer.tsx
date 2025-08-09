@@ -8,9 +8,9 @@ const   Footer = ()=>  {
         {/* Brand Section */}
         <div className="mb-8 md:mb-12">
           <Link to="/" className="inline-block">
-            <h2 className="text-foreground text-2xl font-bold">ShopCraft</h2>
+            <h2 className="text-foreground text-2xl font-bold font-[LOGO]">Fredzy Paris</h2>
           </Link>
-          <p className="text-muted-foreground mt-2 max-w-md text-sm">
+          <p className="text-muted-foreground mt-2 max-w-md text-sm font-[Geist_Mono]">
             Your trusted partner for quality products and exceptional customer
             service since 2020.
           </p>

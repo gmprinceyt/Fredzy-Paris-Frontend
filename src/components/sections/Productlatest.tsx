@@ -13,7 +13,7 @@ interface Props {
   handler: (id: string) => void;
 }
 
-const ProductCard = ({
+const Productlatest = ({
   name,
   price,
   stock,
@@ -49,4 +49,4 @@ const ProductCard = ({
   );
 };
 
-export default ProductCard;
+export default Productlatest;

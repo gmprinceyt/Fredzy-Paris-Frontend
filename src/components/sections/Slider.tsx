@@ -119,11 +119,11 @@ export default function CarouselPreview() {
                     </Badge>
                   )}
 
-                  <h2 className="text-base md:text-4xl font-[Geist_Mono] font-semibold tracking">
+                  <h2 className="text-base md:text-4xl font-[UNIH] font-bold ">
                     {category.name}
                   </h2>
 
-                  <p className="text-accent-foreground/80 text-xs md:text-xl">
+                  <p className="text-accent-foreground/80 text-xs md:text-xl font-[Geist_Mono]">
                     {category.description}
                   </p>
 
