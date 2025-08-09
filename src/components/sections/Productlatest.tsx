@@ -34,8 +34,8 @@ const Productlatest = ({
       <CardContent className="px-2">
         <div className="">
           <div className="space-y-1">
-            <h3 className="text-base/5 h-9 font-semibold font-[Geist_Mono] ">{name.length < 40 ? name : name.slice(0, 40).concat(" ...")}</h3>
-            <p className="text-xs text-muted-foreground ">
+            <h3 className="text-lg/4 h-9 font-[Geist_Mono] font-extrabold">{name.length < 40 ? name : name.slice(0, 40).concat(" ...")}</h3>
+            <p className="text-xs text-muted-foreground  font-[Geist_Mono]   ">
               {discription.length < 100? discription : discription.slice(0, 100).concat(" ...")}
             </p>
           </div>
