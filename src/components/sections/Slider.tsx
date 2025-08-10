@@ -39,6 +39,8 @@ export default function CarouselPreview() {
         "Stay connected with cutting-edge technology. Advanced features meet sophisticated design.",
       image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30",
       productCount: 89,
+      featured: true,
+
       rating: 4.7,
       reviewCount: 890,
       priceRange: "$299 - $999",
@@ -50,6 +52,8 @@ export default function CarouselPreview() {
         "Timeless designs that never go out of style. Perfect for any occasion.",
       image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30",
       productCount: 112,
+      featured: true,
+
       rating: 4.8,
       reviewCount: 965,
       priceRange: "$1,000 - $5,000",
@@ -68,7 +72,7 @@ export default function CarouselPreview() {
     if (isAnimating) return;
     setIsAnimating(true);
     setCurrentIndex(
-      (prev) => (prev - 1 + categories.length) % categories.length,
+      (prev) => (prev - 1 + categories.length) % categories.length
     );
     setTimeout(() => setIsAnimating(false), 500);
   };
@@ -81,10 +85,10 @@ export default function CarouselPreview() {
   }, []);
 
   return (
-    <div className="mx-auto w-full max-w-7xl ">
+    <div className="mx-auto w-full">
       <div className="bg-card relative overflow-hidden rounded-xl border">
         {/* Main Carousel */}
-        <div className="relative aspect-[21/9]">
+        <div className="relative aspect-[12/5] md:aspect-[12/3]">
           {categories.map((category, index) => (
             <div
               key={category.name}
@@ -92,8 +96,8 @@ export default function CarouselPreview() {
                 index === currentIndex
                   ? "translate-x-0"
                   : index < currentIndex
-                    ? "-translate-x-full"
-                    : "translate-x-full"
+                  ? "-translate-x-full"
+                  : "translate-x-full"
               }`}
             >
               {/* Background Image */}
@@ -109,25 +113,25 @@ export default function CarouselPreview() {
 
               {/* Content */}
               <div className="relative flex h-full px-2 py-1 ">
-                <div className="w-full max-w-2xl space-y-1 lg:p-12">
+                <div className="w-full max-w-2xl lg:p-8 md:space-y-2">
                   {category.featured && (
                     <Badge
                       variant="secondary"
-                      className="bg-primary/10 text-[8px] m-0  text-primary md:mb-5"
+                      className="bg-primary/10 text-[8px] m-0  text-primary"
                     >
                       Featured Collection
                     </Badge>
                   )}
 
-                  <h2 className="text-base md:text-4xl font-[UNIH] font-bold ">
+                  <h2 className="text-base md:text-4xl font-bold ">
                     {category.name}
                   </h2>
 
-                  <p className="text-accent-foreground/80 text-xs md:text-xl font-[Geist_Mono]">
-                    {category.description}
+                  <p className="text-accent-foreground/80 text-xs md:text-xl">
+                    {category.description.length <= 65 ? category.description : category.description.slice(0,65).concat('...') }
                   </p>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2  mb-1">
                     <div className="flex items-center gap-1">
                       {Array.from({ length: 5 }).map((_, i) => (
                         <Star
@@ -147,7 +151,7 @@ export default function CarouselPreview() {
                       </span>
                     </div>
                     <div className="text-accent-foreground/80 text-xs">
-                      {category.productCount} products
+                      {category.productCount} Products
                     </div>
                   </div>
 
@@ -164,7 +168,7 @@ export default function CarouselPreview() {
                   </div>
 
                   <div className="">
-                    <Button  className="group  text-xs h-6 rounded mt-1P">
+                    <Button className="group  text-xs  rounded mt-1">
                       Explore
                       <ArrowRight className=" h-1 w-1 transition-transform duration-300 group-hover:translate-x-1" />
                     </Button>

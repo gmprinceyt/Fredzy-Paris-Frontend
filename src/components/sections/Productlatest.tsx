@@ -2,16 +2,8 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { server } from "@/redux/store";
 import { RiAddLargeLine } from "react-icons/ri";
+import type { ProductProps } from "../../../../Fredzy Paris/src/types/types";
 
-interface Props {
-  productId: string;
-  name: string;
-  price: number;
-  stock: number;
-  photo: string;
-  discription: string;
-  handler: (id: string) => void;
-}
 
 const Productlatest = ({
   name,
@@ -21,15 +13,15 @@ const Productlatest = ({
   photo,
   discription,
   handler,
-}: Props) => {
+}: ProductProps) => {
   return (
     <Card className="min-w-56 p-0 max-w-64 mr-2 overflow-hidden gap-2 rounded-lg border shadow-sm">
-      <div className="w-full h-40 overflow-hidden ">
-        <img
-        src={`${server}/${photo}`}
-        alt="Product Image"
-        className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
-      />
+        <div className="w-full h-40 overflow-hidden ">
+          <img
+          src={`${server}/${photo}`}
+          alt="Product Image"
+          className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
+        />
       </div>
       <CardContent className="px-2">
         <div className="">

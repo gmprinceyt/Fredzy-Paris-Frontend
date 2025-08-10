@@ -4,7 +4,7 @@ import { SquareChevronRight } from "lucide-react";
 import Footer from "@/components/sections/Footer";
 import ShippingReturns from "@/components/sections/Return";
 import TrustGuarantee from "@/components/sections/Trust";
-import Productlatest from "@/components/sections/Productlatest";
+import ProductCard from "@/components/sections/ProductCard";
 
 const Home = () => {
   const { data } = useLatestProductQuery("");
@@ -22,16 +22,17 @@ const Home = () => {
         <h1 className="text-2xl font-[UNITHIN] text-n-500">LATEST PRODUCTS</h1>
         <SquareChevronRight />
       </div>
-      <div className="flex overflow-x-scroll product ">
+      <div className="flex overflow-x-scroll gap-1.5 product">
         {data?.data.map((product) => {
           return (
-            <Productlatest
+            <ProductCard
               key={product._id}
               productId={product._id}
               name={product.name}
               price={product.price}
               stock={product.stock}
               photo={product.photo}
+              rating={4}
               discription={product.discription}
               handler={addToCart}
             />

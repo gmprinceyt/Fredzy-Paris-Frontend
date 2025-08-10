@@ -1,4 +1,15 @@
 import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import ProductCard from "@/components/sections/ProductCard";
+import { Input } from "@/components/ui/input";
+import {
   Select,
   SelectContent,
   SelectGroup,
@@ -11,53 +22,138 @@ import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
 
 const SearchProduct = () => {
-  const [range, setRange ] = useState(10000)
+  const [priceRange, setPriceRange] = useState([4000]);
+  const [sort, setSort] = useState("");
+  const [category, setCategory] = useState("");
+  const [name, setName] = useState("");
+
+  console.log(sort, category, priceRange);
 
   return (
-    <div className="flex flex-col  m-auto max-w-[1280px] px-3 ">
+    <div className="flex flex-col md:flex-row gap-2  m-auto max-w-[1280px] px-3 font-[Geist]">
       {/* Filterr Section */}
       <section className="">
         <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight text-balance">
-          Filter
+          FILTERS
         </h1>
-        <Select>
-          <h4 className="leading-7  font-semibold tracking-tight">Sort</h4>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Sort" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Price</SelectLabel>
-              <SelectItem value="all">low-high</SelectItem>
-              <SelectItem value="Women">high-low</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        <Select>
-          <h4 className="leading-7  font-semibold tracking-tight">Category</h4>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Categories" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Categories</SelectLabel>
-              <SelectItem value="all">All</SelectItem>
-              <SelectItem value="men">Men</SelectItem>
-              <SelectItem value="Women">Women</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        <div className="">
-          <h4 className="leading-7  font-semibold tracking-tight">
-            Price Range
+
+        <div className="my-2 ">
+          <h4 className="  font-semibold ">
+            Keyword
           </h4>
-          <Slider  value={[range]}  defaultValue={[10000]} max={100000} step={1} />
-          <span>{range}</span>
+          <Input
+            value={name}
+            onChange={(e) => {
+              let id = null;
+              if (id) {
+                clearTimeout(id);
+              }
+              id = setTimeout(() => setName(e.target.value), 200);
+            }}
+            type="text"
+            placeholder="Product keyword or name.."
+          />
+        </div>
+
+        <div className="flex flex-wrap md:inline-block gap-3 items-center">
+          <div className="">
+            <h4 className="   font-semibold ">
+              Sort
+            </h4>
+            <Select onValueChange={setSort}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Sort" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Price</SelectLabel>
+                  <SelectItem value="asc">low-high</SelectItem>
+                  <SelectItem value="dsc">high-low</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <h4 className="  font-semibold ">
+              Category
+            </h4>
+            <Select onValueChange={setCategory}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Categories" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Categories</SelectLabel>
+                  <SelectItem value="all">All</SelectItem>
+                  <SelectItem value="men">Men</SelectItem>
+                  <SelectItem value="Women">Women</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="w-44">
+            <h4 className="0   font-semibold ">
+              Price Range
+            </h4>
+            <span className="border-emerald-500 border bg-emerald-950 rounded px-5 py-1 font-semibold text-sm ">100 - {priceRange}</span>
+            <Slider
+              onValueChange={setPriceRange}
+              defaultValue={[4000]}
+              max={100000}
+              min={1000}
+              step={1}
+            />
+          </div>
         </div>
       </section>
 
-      {/* Main Search Section */}
-      <section></section>
+      {/* Main product Section */}
+      <section className="relative">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-1.5 mb-2">
+          {Array.from({ length: 8 }, (_, i) => {
+            return (
+              <ProductCard
+              key={i}
+                name="Red Hat"
+                price={28.99}
+                rating={4.5}
+                stock={20}
+                productId={"12345"}
+                photo="https://bundui-images.netlify.app/products/04.jpeg"
+                discription="Decor Wooden Stool, a stylish, versatile piece with natural wood finish."
+                handler={() => {
+                  console.log("hello");
+                }}
+              />
+            );
+          })}
+        </div>
+
+        <Pagination className="asolute button-4 mb-2">
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">1</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#" isActive>
+                2
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">3</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </section>
     </div>
   );
 };
