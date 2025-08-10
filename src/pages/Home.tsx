@@ -5,6 +5,7 @@ import Footer from "@/components/sections/Footer";
 import ShippingReturns from "@/components/sections/Return";
 import TrustGuarantee from "@/components/sections/Trust";
 import ProductCard from "@/components/sections/ProductCard";
+import ProductDetail from "@/components/sections/ProductDetail";
 
 const Home = () => {
   const { data } = useLatestProductQuery("");
@@ -39,6 +40,7 @@ const Home = () => {
           );
         })}
       </div>
+      <ProductDetail/>
         <div className="mt-4">
           <TrustGuarantee />
         </div>

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Star, Truck, ShieldCheck, Heart } from "lucide-react";
 
-export default function ClassicOverview() {
+const  ProductDetail = () => {
   return (
     <div className="w-full max-w-7xl mx-auto p-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -109,3 +109,5 @@ export default function ClassicOverview() {
     </div>
   );
 }
+
+export default ProductDetail

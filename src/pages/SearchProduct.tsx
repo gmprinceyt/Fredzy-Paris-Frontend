@@ -20,14 +20,30 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
+import {
+  useAllCategoriesQuery,
+  useSearchProductQuery,
+} from "@/redux/api/productApi";
 
 const SearchProduct = () => {
-  const [priceRange, setPriceRange] = useState([4000]);
+  const [priceRange, setPriceRange] = useState([100000]);
   const [sort, setSort] = useState("");
   const [category, setCategory] = useState("");
   const [name, setName] = useState("");
+  const [page, setpage] = useState(1);
 
-  console.log(sort, category, priceRange);
+  const { data } = useSearchProductQuery({
+    category,
+    sort,
+    price: priceRange[0],
+    search: name,
+    page,
+  });
+  const { data: categories } = useAllCategoriesQuery("");
+
+  function addCart() {
+    console.log("add");
+  }
 
   return (
     <div className="flex flex-col md:flex-row gap-2  m-auto max-w-[1280px] px-3 font-[Geist]">
@@ -38,11 +54,8 @@ const SearchProduct = () => {
         </h1>
 
         <div className="my-2 ">
-          <h4 className="  font-semibold ">
-            Keyword
-          </h4>
+          <h4 className="  font-semibold ">Keyword</h4>
           <Input
-            value={name}
             onChange={(e) => {
               let id = null;
               if (id) {
@@ -57,9 +70,7 @@ const SearchProduct = () => {
 
         <div className="flex flex-wrap md:inline-block gap-3 items-center">
           <div className="">
-            <h4 className="   font-semibold ">
-              Sort
-            </h4>
+            <h4 className="   font-semibold ">Sort</h4>
             <Select onValueChange={setSort}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Sort" />
@@ -74,9 +85,7 @@ const SearchProduct = () => {
             </Select>
           </div>
           <div>
-            <h4 className="  font-semibold ">
-              Category
-            </h4>
+            <h4 className="  font-semibold ">Category</h4>
             <Select onValueChange={setCategory}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Categories" />
@@ -85,20 +94,22 @@ const SearchProduct = () => {
                 <SelectGroup>
                   <SelectLabel>Categories</SelectLabel>
                   <SelectItem value="all">All</SelectItem>
-                  <SelectItem value="men">Men</SelectItem>
-                  <SelectItem value="Women">Women</SelectItem>
+                  {categories?.data.map((category) => {
+                    return <SelectItem value={category}>{category.toLowerCase()}</SelectItem>;
+                  })}
+
                 </SelectGroup>
               </SelectContent>
             </Select>
           </div>
           <div className="w-44">
-            <h4 className="0   font-semibold ">
-              Price Range
-            </h4>
-            <span className="border-emerald-500 border bg-emerald-950 rounded px-5 py-1 font-semibold text-sm ">100 - {priceRange}</span>
+            <h4 className="0   font-semibold ">Price Range</h4>
+            <span className="border-emerald-500 border text-white  bg-emerald-900 rounded px-5 py-1 font-semibold text-sm ">
+              100 - {priceRange}
+            </span>
             <Slider
               onValueChange={setPriceRange}
-              defaultValue={[4000]}
+              defaultValue={priceRange}
               max={100000}
               min={1000}
               step={1}
@@ -110,20 +121,19 @@ const SearchProduct = () => {
       {/* Main product Section */}
       <section className="relative">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-1.5 mb-2">
-          {Array.from({ length: 8 }, (_, i) => {
+          {data?.products.map((product, i) => {
             return (
               <ProductCard
-              key={i}
-                name="Red Hat"
-                price={28.99}
+                key={product._id}
+                name={product.name}
+                price={product.price}
                 rating={4.5}
-                stock={20}
-                productId={"12345"}
-                photo="https://bundui-images.netlify.app/products/04.jpeg"
-                discription="Decor Wooden Stool, a stylish, versatile piece with natural wood finish."
-                handler={() => {
-                  console.log("hello");
-                }}
+                stock={product.stock}
+                productId={product._id}
+                photo={product.photo}
+                discription={product.discription}
+                category={product.category}
+                handler={addCart}
               />
             );
           })}

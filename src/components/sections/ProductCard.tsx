@@ -21,13 +21,14 @@ const ProductCard = ({
   productId,
   stock,
   rating,
+  category,
   handler,
 }: ProductProps) => {
   return (
     <Card className="p-0 overflow-hidden min-w-48 max-w-64 gap-1 font-[Geist]">
       <div className="w-full h-60 relative">
         <img src={`${server}/${photo}`} className="w-full h-full object-cover object-center" />
-        <Badge className="absolute top-2 right-2 ">Colthing</Badge>
+        <Badge className="absolute top-2 right-2 ">{category}</Badge>
       </div>
       <CardContent className="px-3 py-0 ">
         <CardTitle className="scroll-m-20 text-xl leading-5   md:text-2xl font-extrabold tracking-tight text-balance">
