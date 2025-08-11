@@ -88,7 +88,7 @@ export default function CarouselPreview() {
     <div className="mx-auto w-full">
       <div className="bg-card relative overflow-hidden rounded-xl border">
         {/* Main Carousel */}
-        <div className="relative aspect-[12/5] md:aspect-[12/3]">
+        <div className="relative aspect-[12/5] md:aspect-[12/4] lg:aspect-[12/3]">
           {categories.map((category, index) => (
             <div
               key={category.name}
@@ -204,7 +204,7 @@ export default function CarouselPreview() {
           {categories.map((_, index) => (
             <button
               key={index}
-              className={`h-1 w-1 rounded-full transition-all ${
+              className={`h-1 w-1 md:h-2 md:w-2   rounded-full transition-all ${
                 index === currentIndex
                   ? "bg-primary w-3"
                   : "bg-primary/30 hover:bg-primary/50"

@@ -17,9 +17,9 @@ const   Footer = ()=>  {
         </div>
 
         {/* Footer Links Grid */}
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-4 gap-8  font-[Geist]">
           {/* Customer Service */}
-          <div className="space-y-4">
+          <div className="space-y-1">
             <h3 className="text-foreground text-sm font-semibold tracking-wider uppercase">
               Customer Service
             </h3>
@@ -215,7 +215,7 @@ const   Footer = ()=>  {
               </ul>
 
               {/* Social Media Icons */}
-              <div className="flex space-x-4">
+              <div className="flex space-x-4 flex-wrap gap-2">
                 <Link
                   to="https://facebook.com"
                   className="text-muted-foreground hover:text-foreground transition-colors"

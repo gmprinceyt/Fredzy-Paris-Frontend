@@ -6,8 +6,8 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "./redux/api/userApi";
-import type { UserReducerInitailState } from "./types/user-reducer";
-import { userExist, userNotExist } from "./redux/reducer/useReducer";
+import type { UserReducerInitailState } from "./types/reducer";
+import { userExist, userNotExist } from "./redux/reducer/userReducer";
 
 
 
@@ -30,7 +30,7 @@ function App() {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         const data = await getUser(user.uid);
-        dispatch(userExist(data!));
+        dispatch(userExist(data));
       } else {
         dispatch(userNotExist());
       }

@@ -33,7 +33,7 @@ const Header = ({user}: {user: User | null}) => {
   return (
     <>
     <Toaster position="top-center"/>
-      <div className="container mx-auto px-4 md:px-6 lg:px-8">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8  z-99 ">
         <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6">
           <Link to="" className="mr-6  lg:flex">
             <span className="h-8 font-bold font-[LOGO] ">Fredzy Paris</span>

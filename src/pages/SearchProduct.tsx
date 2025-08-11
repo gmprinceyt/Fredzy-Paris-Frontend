@@ -24,7 +24,6 @@ import {
   useSearchProductQuery,
 } from "@/redux/api/productApi";
 import ProductSkeleton from "@/components/small/ProductSkeleton";
-import toast from "react-hot-toast";
 
 const SearchProduct = () => {
   const [priceRange, setPriceRange] = useState([100000]);
@@ -44,14 +43,13 @@ const SearchProduct = () => {
     search: name,
     page,
   });
-  if (isError) return toast.error("internal server Error");
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { data: categories, isError:CategoryError } = useAllCategoriesQuery("");
-  if (CategoryError) return toast.error("internal server Error");
-
+  
   function addCart() {
     console.log("add");
   }
+  if (CategoryError) return <span className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  px-5 border rounded-md   py-1 font-[Geist] border-red-500 bg-red-900 ">Products Fecthing Failed</span>
+  if (isError) return <span className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  px-5 border rounded-md   py-1 font-[Geist] border-red-500 bg-red-900 ">Products Fecthing Failed</span>
 
   return (
     <div className="flex flex-col md:flex-row gap-2  m-auto max-w-[1280px] px-3 font-[Geist]">
@@ -102,9 +100,9 @@ const SearchProduct = () => {
                 <SelectGroup>
                   <SelectLabel>Categories</SelectLabel>
                   <SelectItem value="all">All</SelectItem>
-                  {categories?.data.map((category) => {
+                  {categories?.data.map((category, i) => {
                     return (
-                      <SelectItem value={category}>
+                      <SelectItem key={i} value={category}>
                         {category.toLowerCase()}
                       </SelectItem>
                     );
