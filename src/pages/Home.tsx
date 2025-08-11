@@ -6,9 +6,12 @@ import ShippingReturns from "@/components/sections/Return";
 import TrustGuarantee from "@/components/sections/Trust";
 import ProductCard from "@/components/sections/ProductCard";
 import ProductDetail from "@/components/sections/ProductDetail";
+import toast from "react-hot-toast";
+import ProductSkeleton from "@/components/small/ProductSkeleton";
 
 const Home = () => {
-  const { data } = useLatestProductQuery("");
+  const { data, isLoading, isError } = useLatestProductQuery("");
+  if (isError) return toast.error("internal server Error");
 
   function addToCart(id: string) {
     console.log("Added", id);
@@ -24,34 +27,44 @@ const Home = () => {
         <SquareChevronRight />
       </div>
       <div className="flex overflow-x-scroll gap-1.5 product">
-        {data?.data.map((product) => {
-          return (
-            <ProductCard
-              key={product._id}
-              productId={product._id}
-              name={product.name}
-              price={product.price}
-              stock={product.stock}
-              photo={product.photo}
-              rating={4}
-              discription={product.discription}
-              handler={addToCart}
-            />
-          );
-        })}
+        {isLoading ? (
+          <>
+          <ProductSkeleton />
+          <ProductSkeleton />
+          <ProductSkeleton />
+          <ProductSkeleton />
+          </>
+        ) : (
+          data?.data.map((product) => {
+            return (
+              <ProductCard
+                key={product._id}
+                productId={product._id}
+                name={product.name}
+                price={product.price}
+                stock={product.stock}
+                photo={product.photo}
+                rating={4}
+                category={product.category}
+                discription={product.discription}
+                handler={addToCart}
+              />
+            );
+          })
+        )}
       </div>
-      <ProductDetail/>
-        <div className="mt-4">
-          <TrustGuarantee />
-        </div>
-        <div className="mt-4">
-          <ShippingReturns />
-        </div>
-      
-        {/* Footer */}
-        <div className="mt-4">
-          <Footer />
-        </div>
+      <ProductDetail />
+      <div className="mt-4">
+        <TrustGuarantee />
+      </div>
+      <div className="mt-4">
+        <ShippingReturns />
+      </div>
+
+      {/* Footer */}
+      <div className="mt-4">
+        <Footer />
+      </div>
     </div>
   );
 };

@@ -1,7 +1,6 @@
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -24,6 +23,8 @@ import {
   useAllCategoriesQuery,
   useSearchProductQuery,
 } from "@/redux/api/productApi";
+import ProductSkeleton from "@/components/small/ProductSkeleton";
+import toast from "react-hot-toast";
 
 const SearchProduct = () => {
   const [priceRange, setPriceRange] = useState([100000]);
@@ -32,14 +33,21 @@ const SearchProduct = () => {
   const [name, setName] = useState("");
   const [page, setpage] = useState(1);
 
-  const { data } = useSearchProductQuery({
+  const {
+    data: products,
+    isLoading,
+    isError,
+  } = useSearchProductQuery({
     category,
     sort,
     price: priceRange[0],
     search: name,
     page,
   });
-  const { data: categories } = useAllCategoriesQuery("");
+  if (isError) return toast.error("internal server Error");
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { data: categories, isError:CategoryError } = useAllCategoriesQuery("");
+  if (CategoryError) return toast.error("internal server Error");
 
   function addCart() {
     console.log("add");
@@ -95,9 +103,12 @@ const SearchProduct = () => {
                   <SelectLabel>Categories</SelectLabel>
                   <SelectItem value="all">All</SelectItem>
                   {categories?.data.map((category) => {
-                    return <SelectItem value={category}>{category.toLowerCase()}</SelectItem>;
+                    return (
+                      <SelectItem value={category}>
+                        {category.toLowerCase()}
+                      </SelectItem>
+                    );
                   })}
-
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -121,45 +132,66 @@ const SearchProduct = () => {
       {/* Main product Section */}
       <section className="relative">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-1.5 mb-2">
-          {data?.products.map((product, i) => {
-            return (
-              <ProductCard
-                key={product._id}
-                name={product.name}
-                price={product.price}
-                rating={4.5}
-                stock={product.stock}
-                productId={product._id}
-                photo={product.photo}
-                discription={product.discription}
-                category={product.category}
-                handler={addCart}
-              />
-            );
-          })}
+          {isLoading ? (
+            <>
+             <ProductSkeleton />
+             <ProductSkeleton />
+             <ProductSkeleton />
+             <ProductSkeleton />
+            </>
+          ) : (
+            products?.products.map((product) => {
+              return (
+                <ProductCard
+                  key={product._id}
+                  name={product.name}
+                  price={product.price}
+                  rating={4.5}
+                  stock={product.stock}
+                  productId={product._id}
+                  photo={product.photo}
+                  discription={product.discription}
+                  category={product.category}
+                  handler={addCart}
+                />
+              );
+            })
+          )}
         </div>
 
-        <Pagination className="asolute button-4 mb-2">
+        <Pagination>
           <PaginationContent>
             <PaginationItem>
-              <PaginationPrevious href="#" />
+              <PaginationPrevious
+                onClick={() => {
+                  if (page === 1) return;
+                  setpage((page) => page - 1);
+                }}
+              />
             </PaginationItem>
+
+            {/* Render page links dynamically based on totalPages and page */}
+            {Array.from(
+              { length: products?.pageLength || 1 },
+              (_, i) => i + 1
+            ).map((pageNumber) => (
+              <PaginationItem key={pageNumber}>
+                <PaginationLink
+                  onClick={() => setpage(pageNumber)}
+                  isActive={pageNumber === page}
+                >
+                  {pageNumber}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+
             <PaginationItem>
-              <PaginationLink href="#">1</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#" isActive>
-                2
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">3</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext href="#" />
+              <PaginationNext
+                onClick={() => {
+                  if (page === products?.pageLength) return;
+                  setpage((page) => page + 1);
+                }}
+              />
             </PaginationItem>
           </PaginationContent>
         </Pagination>

@@ -38,7 +38,7 @@ const ProductCard = ({
         </CardTitle>
         <div className="flex items-center">
           {Array.from({ length: 5 }, (_, index) => {
-            return <ProductRating value={rating} index={index} />;
+            return <ProductRating key={index} value={rating} index={index} />;
           })}
           <span className="text-muted-foreground ml-3 text-xs md:text-sm tracking-tight ">
             ({rating})
