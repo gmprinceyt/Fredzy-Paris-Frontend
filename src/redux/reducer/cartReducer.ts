@@ -46,9 +46,11 @@ export const cartReducer = createSlice({
         state.shippingCharges = subtotal > 1500 ? 39 : 199;
         state.tax = subtotal * 0.08;
         state.total = (state.tax  + state.subtotal + state.shippingCharges) - state.discount;
-        //Remain Discount Logic
+    },
+    reduceDiscount: (state, action: PayloadAction<number>) => {
+      state.discount =  action.payload;
     }
   },
 });
 
-export const { addToCart, removeCartItem, updateCartDetails } = cartReducer.actions;
+export const { addToCart, removeCartItem, updateCartDetails, reduceDiscount} = cartReducer.actions;

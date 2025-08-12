@@ -10,12 +10,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   addToCart,
+  reduceDiscount,
   removeCartItem,
   updateCartDetails,
 } from "@/redux/reducer/cartReducer";
 import { server } from "@/redux/store";
 import type { CartInitialState } from "@/types/reducer";
 import type { CartItems } from "@/types/types";
+import axios from "axios";
 import {
   Trash2,
   Plus,
@@ -26,7 +28,7 @@ import {
   Shield,
   ShoppingBasketIcon,
 } from "lucide-react";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -41,6 +43,7 @@ const Cart = () => {
   } = useSelector(
     (state: { cartReducer: CartInitialState }) => state.cartReducer
   );
+  const [coupon , setCoupon] = useState("");
   const dispatch = useDispatch();
   const QuantityHandler = useCallback(
     (cartItem: CartItems, value: number) => {
@@ -57,9 +60,17 @@ const Cart = () => {
     [dispatch]
   );
 
+  const  discounthander  = useCallback( async ()=> {
+    const {data} = await axios.get(`${server}/api/v1/payment/coupon/discount/?code=${coupon}`)
+
+    if (data.statusCode === 200){
+      dispatch(reduceDiscount(data.data))
+    }
+  }, [coupon])
+
   useEffect(() => {
     dispatch(updateCartDetails());
-  }, [dispatch, items]);
+  }, [dispatch, items, discount]);
 
   return (
     <div className="mx-auto w-full max-w-7xl p-6 font-[Geist]">
@@ -174,9 +185,15 @@ const Cart = () => {
                 {/* Promo Code */}
                 <div className="space-y-2">
                   <Label>Promo Code</Label>
-                  <div className="flex gap-2">
-                    <Input placeholder="Enter promo code" />
-                    <Button variant="outline">Apply</Button>
+                  <div className=" flex-col flex gap-1">
+                  <div className="flex gap-1">
+                    <Input onChange={(e)=> setCoupon(e.target.value)} placeholder="Enter promo code" />
+                    <Button onClick={discounthander} variant="outline">Apply</Button>
+                  </div>
+                    {
+                      discount ? <span className="text-sm font-semibold text-green-400">You Got it Discount ₹{discount}</span>: ""
+                    }
+
                   </div>
                 </div>
 
