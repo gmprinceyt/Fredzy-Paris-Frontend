@@ -44,10 +44,7 @@ const SearchProduct = () => {
     page,
   });
   const { data: categories, isError:CategoryError } = useAllCategoriesQuery("");
-  
-  function addCart() {
-    console.log("add");
-  }
+
   if (CategoryError) return <span className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  px-5 border rounded-md   py-1 font-[Geist] border-red-500 bg-red-900 ">Products Fecthing Failed</span>
   if (isError) return <span className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  px-5 border rounded-md   py-1 font-[Geist] border-red-500 bg-red-900 ">Products Fecthing Failed</span>
 
@@ -150,7 +147,6 @@ const SearchProduct = () => {
                   photo={product.photo}
                   discription={product.discription}
                   category={product.category}
-                  handler={addCart}
                 />
               );
             })
