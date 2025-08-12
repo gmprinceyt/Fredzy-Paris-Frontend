@@ -16,8 +16,12 @@ import toast, { Toaster } from "react-hot-toast";
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebase";
 import { LogOut, Search, ShoppingCart } from "lucide-react";
+import { useSelector } from "react-redux";
+import type { CartInitialState } from "@/types/reducer";
 
 const Header = ({user}: {user: User | null}) => {
+
+  const {cartItems} = useSelector((state: {cartReducer: CartInitialState})=> state.cartReducer )
 
   const logoutHandler  = useCallback(async()=> {
     try {
@@ -50,7 +54,7 @@ const Header = ({user}: {user: User | null}) => {
               to="/cart"
               className="group relative inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-2 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
             >
-              <b className="absolute -top-1 right-0">0</b>
+              <b className={`absolute -top-1 right-0 border border-gray-400 bg-gray-900 px-1 text-white rounded-full ${cartItems.length ? "border border-green-400 bg-green-900 "  : ""}`}>{cartItems.length}</b>
               <ShoppingCart/>
             </Link>
             <ModeToggle />

@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "./redux/api/userApi";
 import type { UserReducerInitailState } from "./types/reducer";
 import { userExist, userNotExist } from "./redux/reducer/userReducer";
+import toast from "react-hot-toast";
+import type { User } from "./types/types";
 
 
 
@@ -17,7 +19,8 @@ const  Login = lazy( ()=>import("./pages/Login"))
 const  Home = lazy( ()=>import("./pages/Home"))
 const  ProtectedRoute = lazy( ()=>import("./components/ProtectedRoute"))
 const  SearchProduct = lazy( ()=>import("./pages/SearchProduct"))
-const  Cart = lazy( ()=>import("./pages/Cart"))
+const  Cart = lazy( ()=>import("./pages/Cart"));
+const ShoppingInfo = lazy(()=> import("./pages/ShoppingInfo"))
 
 
 function App() {
@@ -30,7 +33,8 @@ function App() {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         const data = await getUser(user.uid);
-        dispatch(userExist(data));
+        if (!data) return toast.error("User does not exist!");
+        dispatch(userExist(data as User));
       } else {
         dispatch(userNotExist());
       }
@@ -47,10 +51,18 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route
-              path="login"
+              path="/login"
               element={
                 <ProtectedRoute isAuthoticate={user ? false : true}>  
                   <Login />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/shoppinginfo"
+              element={
+                <ProtectedRoute isAuthoticate={user ? true : false}>  
+                  <ShoppingInfo />
                 </ProtectedRoute>
               }
             />

@@ -31,6 +31,7 @@ import {
 import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router";
 
 const Cart = () => {
   const {
@@ -43,7 +44,7 @@ const Cart = () => {
   } = useSelector(
     (state: { cartReducer: CartInitialState }) => state.cartReducer
   );
-  const [coupon , setCoupon] = useState("");
+  const [coupon, setCoupon] = useState("");
   const dispatch = useDispatch();
   const QuantityHandler = useCallback(
     (cartItem: CartItems, value: number) => {
@@ -60,13 +61,15 @@ const Cart = () => {
     [dispatch]
   );
 
-  const  discounthander  = useCallback( async ()=> {
-    const {data} = await axios.get(`${server}/api/v1/payment/coupon/discount/?code=${coupon}`)
+  const discounthander = useCallback(async () => {
+    const { data } = await axios.get(
+      `${server}/api/v1/payment/coupon/discount/?code=${coupon}`
+    );
 
-    if (data.statusCode === 200){
-      dispatch(reduceDiscount(data.data))
+    if (data.statusCode === 200) {
+      dispatch(reduceDiscount(data.data));
     }
-  }, [coupon])
+  }, [coupon]);
 
   useEffect(() => {
     dispatch(updateCartDetails());
@@ -186,14 +189,22 @@ const Cart = () => {
                 <div className="space-y-2">
                   <Label>Promo Code</Label>
                   <div className=" flex-col flex gap-1">
-                  <div className="flex gap-1">
-                    <Input onChange={(e)=> setCoupon(e.target.value)} placeholder="Enter promo code" />
-                    <Button onClick={discounthander} variant="outline">Apply</Button>
-                  </div>
-                    {
-                      discount ? <span className="text-sm font-semibold text-green-400">You Got it Discount ₹{discount}</span>: ""
-                    }
-
+                    <div className="flex gap-1">
+                      <Input
+                        onChange={(e) => setCoupon(e.target.value)}
+                        placeholder="Enter promo code"
+                      />
+                      <Button onClick={discounthander} variant="outline">
+                        Apply
+                      </Button>
+                    </div>
+                    {discount ? (
+                      <span className="text-sm font-semibold text-green-400">
+                        You Got it Discount ₹{discount}
+                      </span>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
 
@@ -209,11 +220,12 @@ const Cart = () => {
                   </div>
                   <div className="flex justify-between text-sm">
                     <span>Discount</span>
-                    <span>₹{discount?.toFixed(2)}</span>
+                    <span className={`${discount > 1 ? "text-green-400": ''}`}>₹ -{discount?.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span>
-                      Taxes <span className="text-muted-foreground">( 8% )</span>
+                      Taxes{" "}
+                      <span className="text-muted-foreground">( 8% )</span>
                     </span>
                     <span>₹{tax?.toFixed(2)}</span>
                   </div>
@@ -240,10 +252,12 @@ const Cart = () => {
                 </div>
 
                 {/* Checkout Button */}
-                <Button className="w-full">
-                  <CreditCard className="mr-2 h-4 w-4" />
-                  Proceed to Checkout
-                </Button>
+                <Link to="/shoppinginfo">
+                  <Button className="w-full">
+                    <CreditCard className="mr-2 h-4 w-4" />
+                    Proceed to Checkout
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           </div>
