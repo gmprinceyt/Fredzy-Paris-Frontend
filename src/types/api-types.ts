@@ -39,5 +39,32 @@ export type CreateOrderRequestQuery = {
   subtotal: number;
   tax: number;
   total: number;
-  user: number;
+  user: string;
 };
+
+export type CreatePaymentOrderResponse = {
+  statusCode: number;
+  message: string;
+  data: {
+    amount: number;
+    amount_due: number;
+    amount_paid: number;
+    attempts: number;
+    created_at: number;
+    currency: "INR";
+    entity: string;
+    id: string;
+    notes: [];
+    offer_id: null | string;
+    receipt: string;
+    status: string;
+  };
+  success: boolean;
+};
+
+export interface UserOrderResponse extends MessageResponse {
+  data: CreateOrderRequestQuery;
+  status:"Processing"| "Shipped"|  "Delivered";
+}
+
+

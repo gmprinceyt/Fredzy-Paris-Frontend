@@ -1,5 +1,5 @@
 import type { CartInitialState } from "@/types/reducer";
-import type { CartItems } from "@/types/types";
+import type { CartItems, ShippingInfo } from "@/types/types";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: CartInitialState = {
@@ -40,17 +40,30 @@ export const cartReducer = createSlice({
         (items) => items.productId !== action.payload.id
       );
     },
-    updateCartDetails: (state)=> {
-        const subtotal  = state.cartItems.reduce((prev,curr)=>  (curr.price*curr.quantity)+prev ,0);
-        state.subtotal = subtotal
-        state.shippingCharges = subtotal > 1500 ? 39 : 199;
-        state.tax = subtotal * 0.08;
-        state.total = (state.tax  + state.subtotal + state.shippingCharges) - state.discount;
+    updateCartDetails: (state) => {
+      const subtotal = state.cartItems.reduce(
+        (prev, curr) => curr.price * curr.quantity + prev,
+        0
+      );
+      state.subtotal = subtotal;
+      state.shippingCharges = subtotal > 1500 ? 39 : 199;
+      state.tax = subtotal * 0.08;
+      state.total =
+        state.tax + state.subtotal + state.shippingCharges - state.discount;
     },
     reduceDiscount: (state, action: PayloadAction<number>) => {
-      state.discount =  action.payload;
-    }
+      state.discount = action.payload;
+    },
+    updateShippingInfo: (state, action: PayloadAction<ShippingInfo>) => {
+      state.shippingInfo = action.payload;
+    },
   },
 });
 
-export const { addToCart, removeCartItem, updateCartDetails, reduceDiscount} = cartReducer.actions;
+export const {
+  addToCart,
+  removeCartItem,
+  updateCartDetails,
+  reduceDiscount,
+  updateShippingInfo,
+} = cartReducer.actions;

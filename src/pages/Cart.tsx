@@ -63,7 +63,7 @@ const Cart = () => {
 
   const discounthander = useCallback(async () => {
     const { data } = await axios.get(
-      `${server}/api/v1/payment/coupon/discount/?code=${coupon}`
+      `${server}/api/v1/payment/coupon/discount?code=${coupon}`
     );
 
     if (data.statusCode === 200) {

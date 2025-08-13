@@ -28,10 +28,10 @@ export type CartItems = {
 };
 export type ShippingInfo = {
   address: string;
-  pincode: number;
   state: string;
   country: string;
   city: string;
+  pincode: number;
 };
 
 export interface ProductProps {

@@ -1,6 +1,7 @@
 import type {
   CreateOrderRequestQuery,
   MessageResponse,
+  UserOrderResponse,
 } from "@/types/api-types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
@@ -16,9 +17,14 @@ export const orderApi = createApi({
         url: "new",
         method: "POST",
         body: order,
+        providesTags: ['order']
       }),
+    }),
+    MyOrder: builder.query<UserOrderResponse, string>({
+      query: () => "user/all",
+      providesTags: ['order']
     }),
   }),
 });
 
-export const { useCreateOrderMutation } = orderApi;
+export const { useCreateOrderMutation,useMyOrderQuery } = orderApi;

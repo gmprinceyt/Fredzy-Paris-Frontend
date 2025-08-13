@@ -10,6 +10,7 @@ import type { UserReducerInitailState } from "./types/reducer";
 import { userExist, userNotExist } from "./redux/reducer/userReducer";
 import toast from "react-hot-toast";
 import type { User } from "./types/types";
+import Orders from "./pages/Orders";
 
 
 
@@ -63,6 +64,14 @@ function App() {
               element={
                 <ProtectedRoute isAuthoticate={user ? true : false}>  
                   <ShoppingInfo />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/orders"
+              element={
+                <ProtectedRoute isAuthoticate={user ? true : false}>  
+                  <Orders />
                 </ProtectedRoute>
               }
             />
