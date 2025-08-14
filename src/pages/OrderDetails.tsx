@@ -20,19 +20,21 @@ export default function Component() {
     (state: { userReducer: UserReducerInitailState }) => state.userReducer
   );
   const navigate = useNavigate();
-  const { isLoading, data, isError } = useMyOrderQuery(user._id!);
+  const { isLoading, data, isError } = useMyOrderQuery(user!._id, {
+    skip: !user?._id,
+  });
   if (isError) return toast.error("Order Not Found!");
 
   return (
     <>
       {isLoading ? (
         <div>
-          <Skeleton/>
-          <Skeleton/>
-          <Skeleton/>
-          <Skeleton/>
-          <Skeleton/>
-          <Skeleton/>
+          <Skeleton />
+          <Skeleton />
+          <Skeleton />
+          <Skeleton />
+          <Skeleton />
+          <Skeleton />
         </div>
       ) : (
         <div className="m-auto  max-w-[1280px] px-4 md:px-6 py-8">

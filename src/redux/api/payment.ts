@@ -1,4 +1,4 @@
-import type { CreatePaymentOrderResponse } from "@/types/api-types";
+import type { CreatePaymentOrderResponse, GetDiscountResponse } from "@/types/api-types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const paymentApi = createApi({
@@ -31,7 +31,10 @@ export const paymentApi = createApi({
         body: body,
       }),
     }),
+    getDiscount: builder.query<GetDiscountResponse, string>({
+      query: (id) => `coupon/discount?code=${id}`
+    }),
   }),
 });
 
-export const { usePaymentOrderMutation,usePaymentVerifyMutation } = paymentApi;
+export const { usePaymentOrderMutation,usePaymentVerifyMutation,useGetDiscountQuery } = paymentApi;

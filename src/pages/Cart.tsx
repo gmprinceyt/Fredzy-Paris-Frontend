@@ -1,3 +1,4 @@
+import Coupon from "@/components/small/Coupon";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -6,18 +7,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   addToCart,
-  reduceDiscount,
   removeCartItem,
   updateCartDetails,
 } from "@/redux/reducer/cartReducer";
 import { server } from "@/redux/store";
 import type { CartInitialState } from "@/types/reducer";
 import type { CartItems } from "@/types/types";
-import axios from "axios";
 import {
   Trash2,
   Plus,
@@ -28,7 +26,7 @@ import {
   Shield,
   ShoppingBasketIcon,
 } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
@@ -44,7 +42,6 @@ const Cart = () => {
   } = useSelector(
     (state: { cartReducer: CartInitialState }) => state.cartReducer
   );
-  const [coupon, setCoupon] = useState("");
   const dispatch = useDispatch();
   const QuantityHandler = useCallback(
     (cartItem: CartItems, value: number) => {
@@ -60,16 +57,6 @@ const Cart = () => {
     },
     [dispatch]
   );
-
-  const discounthander = useCallback(async () => {
-    const { data } = await axios.get(
-      `${server}/api/v1/payment/coupon/discount?code=${coupon}`
-    );
-
-    if (data.statusCode === 200) {
-      dispatch(reduceDiscount(data.data));
-    }
-  }, [coupon, dispatch]);
 
   useEffect(() => {
     dispatch(updateCartDetails());
@@ -188,24 +175,14 @@ const Cart = () => {
                 {/* Promo Code */}
                 <div className="space-y-2">
                   <Label>Promo Code</Label>
-                  <div className=" flex-col flex gap-1">
-                    <div className="flex gap-1">
-                      <Input
-                        onChange={(e) => setCoupon(e.target.value)}
-                        placeholder="Enter promo code"
-                      />
-                      <Button onClick={discounthander} variant="outline">
-                        Apply
-                      </Button>
-                    </div>
-                    {discount ? (
-                      <span className="text-sm font-semibold text-green-400">
-                        You Got it Discount ₹{discount}
-                      </span>
-                    ) : (
-                      ""
-                    )}
-                  </div>
+                  <Coupon />
+                  {discount ? (
+                    <span className="text-sm font-semibold text-green-400">
+                      You Got it Discount ₹{discount}
+                    </span>
+                  ) : (
+                    ""
+                  )}
                 </div>
 
                 {/* Order Summary */}
@@ -220,7 +197,9 @@ const Cart = () => {
                   </div>
                   <div className="flex justify-between text-sm">
                     <span>Discount</span>
-                    <span className={`${discount > 1 ? "text-green-400": ''}`}>₹ -{discount?.toFixed(2)}</span>
+                    <span className={`${discount > 1 ? "text-green-400" : ""}`}>
+                      ₹ -{discount?.toFixed(2)}
+                    </span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span>

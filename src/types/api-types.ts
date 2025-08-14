@@ -70,5 +70,27 @@ export interface UserOrderResponse extends MessageResponse {
     status:"Processing"| "Shipped"|  "Delivered" | "OutOfDelivery";
   })[];
 }
+export interface SingleOrderResponse extends MessageResponse {
+  data:(CreateOrderRequestQuery & {
+    _id: string;
+    createdAt: Date;
+    updatedAt: Date;
+    status:"Processing"| "Shipped"|  "Delivered" | "OutOfDelivery";
+  });
+}
+
+export type GetDiscountResponse =  {
+  statusCode: number;
+  message: number;
+  data:number;
+  success:true;
+} 
 
 
+
+// {
+//     "message": 200,
+//     "message": "You Got it Discount ",
+//     "data": 5000,
+//     "success": true
+// }
