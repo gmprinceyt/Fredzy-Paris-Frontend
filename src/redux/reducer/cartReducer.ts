@@ -57,6 +57,7 @@ export const cartReducer = createSlice({
     updateShippingInfo: (state, action: PayloadAction<ShippingInfo>) => {
       state.shippingInfo = action.payload;
     },
+    clearCart:()=> initialState
   },
 });
 
@@ -66,4 +67,5 @@ export const {
   updateCartDetails,
   reduceDiscount,
   updateShippingInfo,
+  clearCart
 } = cartReducer.actions;

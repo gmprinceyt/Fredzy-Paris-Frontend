@@ -24,6 +24,13 @@ declare global {
     theme?: {
       color?: string;
     };
+    modal?: {
+      ondismiss?: () => void; // Called when modal is closed
+      escape?: boolean; // Allow closing with ESC key
+      backdropclose?: boolean; // Allow closing by clicking backdrop
+      handleback?: boolean; // Handle browser back button
+      confirm_close?: boolean; // Show confirmation before closing
+    };
   }
 
   interface RazorpayInstance {

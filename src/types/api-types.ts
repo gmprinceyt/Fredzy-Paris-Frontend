@@ -64,7 +64,7 @@ export type CreatePaymentOrderResponse = {
 
 export interface UserOrderResponse extends MessageResponse {
   data: CreateOrderRequestQuery;
-  status:"Processing"| "Shipped"|  "Delivered";
+  status:"Processing"| "Shipped"|  "Delivered" | "OutOfDelivery";
 }
 
 

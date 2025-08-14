@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-dropdown-menu";
-import { CreditCard } from "lucide-react";
+import { CreditCard, LoaderCircle } from "lucide-react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import type { ShippingInfo } from "@/types/types";
 import {
@@ -14,14 +14,14 @@ import type {
   UserReducerInitailState,
 } from "@/types/reducer";
 import { useNavigate } from "react-router";
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useState } from "react";
 import type {
   CreateOrderRequestQuery,
   CreatePaymentOrderResponse,
 } from "@/types/api-types";
 import toast from "react-hot-toast";
 import { useCreateOrderMutation } from "@/redux/api/orderApi";
-import { updateShippingInfo } from "@/redux/reducer/cartReducer";
+import { clearCart, updateShippingInfo } from "@/redux/reducer/cartReducer";
 
 const ShoppingInfo = () => {
   const [paymentOrder] = usePaymentOrderMutation();
@@ -42,6 +42,7 @@ const ShoppingInfo = () => {
   const { user } = useSelector(
     (state: { userReducer: UserReducerInitailState }) => state.userReducer
   );
+  const [loading, setLoading] = useState(false);
 
   const handlePaymentVerify = useCallback(
     async (
@@ -83,9 +84,13 @@ const ShoppingInfo = () => {
 
             const orderData = await createOrder(orderBody).unwrap();
             console.log("Order created:", orderData);
+            dispatch(clearCart())
+
 
             navigate("/orders");
+            setLoading(false);
           } catch (err) {
+            setLoading(false);
             console.error(
               "Payment verification or order creation failed:",
               err
@@ -93,29 +98,26 @@ const ShoppingInfo = () => {
             toast.error("Something went wrong during order creation");
           }
         },
+        modal: {
+          ondismiss: function () {
+            // Called when the payment modal is closed/canceled
+            setLoading(false);
+            toast.error("Payemnt closed/canceled")
+          },
+        },
         theme: { color: "#5f63b8" },
       };
 
       const rzp1 = new window.Razorpay(options);
       rzp1.open();
     },
-    [
-      cartItems,
-      createOrder,
-      discount,
-      navigate,
-      paymentVerify,
-      shippingCharges,
-      subtotal,
-      tax,
-      total,
-      user,
-    ]
+    [cartItems, createOrder, discount, dispatch, navigate, paymentVerify, shippingCharges, subtotal, tax, total, user]
   );
 
   const MakeOrder: SubmitHandler<ShippingInfo> = useCallback(
     async (formData) => {
       try {
+        setLoading(true);
         console.log("Shipping info:", formData);
 
         const paymentOrderData = await paymentOrder({ amount: total }).unwrap();
@@ -126,6 +128,7 @@ const ShoppingInfo = () => {
         // Continue to payment verification
         await handlePaymentVerify(paymentOrderData, formData);
       } catch (err) {
+        setLoading(false);
         console.error("Payment order creation failed:", err);
         toast.error("Payment Order Failed!");
       }
@@ -209,7 +212,11 @@ const ShoppingInfo = () => {
             type="submit"
             className=" h-12 md:h-8 mt-8 text-lg md:text-sm"
           >
-            <CreditCard className="mr-2" />
+            {loading ? (
+              <LoaderCircle className="animate-spin" />
+            ) : (
+              <CreditCard className="mr-2" />
+            )}
             Proceed to Payment
           </Button>
         </form>

@@ -14,6 +14,7 @@ import { server } from "@/redux/store";
 import type { ProductProps } from "@/types/types";
 import { useDispatch } from "react-redux";
 import { addToCartHandler } from "@/utils/AddTOCart";
+import { useNavigate } from "react-router";
 
 const ProductCard = ({
   name,
@@ -26,6 +27,7 @@ const ProductCard = ({
   category,
 }: ProductProps) => {
 const dispatch = useDispatch();
+const navigator = useNavigate();
 
 
 
@@ -73,7 +75,7 @@ const dispatch = useDispatch();
         <div className="flex  items-center w-full gap-2 py-1">
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button variant="outline">
+              <Button onClick={()=>navigator(`product/${productId}`)} variant="outline">
                 <Eye />
               </Button>
             </TooltipTrigger>

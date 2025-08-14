@@ -10,19 +10,18 @@ import type { UserReducerInitailState } from "./types/reducer";
 import { userExist, userNotExist } from "./redux/reducer/userReducer";
 import toast from "react-hot-toast";
 import type { User } from "./types/types";
-import Orders from "./pages/Orders";
-
-
 
 // Components
-const  Header = lazy( ()=>import("./components/Header"))
-const  Login = lazy( ()=>import("./pages/Login"))
-const  Home = lazy( ()=>import("./pages/Home"))
-const  ProtectedRoute = lazy( ()=>import("./components/ProtectedRoute"))
-const  SearchProduct = lazy( ()=>import("./pages/SearchProduct"))
-const  Cart = lazy( ()=>import("./pages/Cart"));
-const ShoppingInfo = lazy(()=> import("./pages/ShoppingInfo"))
-
+const Header = lazy(() => import("./components/Header"));
+const Login = lazy(() => import("./pages/Login"));
+const Home = lazy(() => import("./pages/Home"));
+const ProtectedRoute = lazy(() => import("./components/ProtectedRoute"));
+const SearchProduct = lazy(() => import("./pages/SearchProduct"));
+const Cart = lazy(() => import("./pages/Cart"));
+const ShoppingInfo = lazy(() => import("./pages/ShoppingInfo"));
+const Orders = lazy(() => import("./pages/OrderDetails"));
+const Progress = lazy(() => import("./pages/Progress"));
+const ProductDetail = lazy(() => import("./pages/ProductDetail"));
 
 function App() {
   const dispatch = useDispatch();
@@ -54,7 +53,7 @@ function App() {
             <Route
               path="/login"
               element={
-                <ProtectedRoute isAuthoticate={user ? false : true}>  
+                <ProtectedRoute isAuthoticate={user ? false : true}>
                   <Login />
                 </ProtectedRoute>
               }
@@ -62,7 +61,7 @@ function App() {
             <Route
               path="/shoppinginfo"
               element={
-                <ProtectedRoute isAuthoticate={user ? true : false}>  
+                <ProtectedRoute isAuthoticate={user ? true : false} message="Checkout" navigate="/cart">
                   <ShoppingInfo />
                 </ProtectedRoute>
               }
@@ -70,14 +69,22 @@ function App() {
             <Route
               path="/orders"
               element={
-                <ProtectedRoute isAuthoticate={user ? true : false}>  
+                <ProtectedRoute isAuthoticate={user ? true : false}>
                   <Orders />
                 </ProtectedRoute>
               }
             />
-            <Route path="/search" element={<SearchProduct/>} />
-            <Route path="/cart" element={<Cart/>} />
-            {/* <Route path="/product/:id" element={<ProductCard/>} /> */}
+            <Route
+              path="/progress"
+              element={
+                <ProtectedRoute isAuthoticate={user ? true : false}>
+                  <Progress />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/search" element={<SearchProduct />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/product/:productId" element={<ProductDetail/>} />
           </Routes>
         </ThemeProvider>
       </BrowserRouter>

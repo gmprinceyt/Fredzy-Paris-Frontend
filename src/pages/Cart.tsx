@@ -69,7 +69,7 @@ const Cart = () => {
     if (data.statusCode === 200) {
       dispatch(reduceDiscount(data.data));
     }
-  }, [coupon]);
+  }, [coupon, dispatch]);
 
   useEffect(() => {
     dispatch(updateCartDetails());
