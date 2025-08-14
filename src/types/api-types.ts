@@ -63,8 +63,12 @@ export type CreatePaymentOrderResponse = {
 };
 
 export interface UserOrderResponse extends MessageResponse {
-  data: CreateOrderRequestQuery;
-  status:"Processing"| "Shipped"|  "Delivered" | "OutOfDelivery";
+  data:(CreateOrderRequestQuery & {
+    _id: string;
+    createdAt: Date;
+    updatedAt: Date;
+    status:"Processing"| "Shipped"|  "Delivered" | "OutOfDelivery";
+  })[];
 }
 
 

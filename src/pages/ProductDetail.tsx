@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router";
 import { useDispatch } from "react-redux";
 import Loading from "../components/Loading";
+
 const ProductDetail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();

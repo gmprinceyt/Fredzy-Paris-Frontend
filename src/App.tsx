@@ -75,7 +75,7 @@ function App() {
               }
             />
             <Route
-              path="/progress"
+              path="/progress/:orderId"
               element={
                 <ProtectedRoute isAuthoticate={user ? true : false}>
                   <Progress />
