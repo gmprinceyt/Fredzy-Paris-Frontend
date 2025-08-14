@@ -24,9 +24,16 @@ import type { UserReducerInitailState } from "@/types/reducer";
 import { server } from "@/redux/store";
 import { Badge } from "@/components/ui/badge";
 import toast from "react-hot-toast";
-const TrackOrders = () => {
+const TrackOrders = ({ url }: { url?: string }) => {
   const { orderId } = useParams();
-  const { data, isLoading, isError } = useGetSingleOrderQuery(orderId!);
+  let urllink: string;
+  if (orderId) {
+    urllink = orderId;
+  } else {
+    urllink = url;
+  }
+
+  const { data, isLoading, isError } = useGetSingleOrderQuery(urllink);
   const { user } = useSelector(
     (state: { userReducer: UserReducerInitailState }) => state.userReducer
   );
@@ -191,7 +198,7 @@ const TrackOrders = () => {
               <CardContent>
                 {data.data.orderItems.map((order) => {
                   return (
-                    <div className="flex justify-between font-semibold my-2 gap-5 items-center ">
+                    <div key={order.productId} className="flex justify-between font-semibold my-2 gap-5 items-center ">
                       <div className="flex-1 flex gap-2 items-center">
                         <img
                           src={`${server}/${order.photo}`}

@@ -90,9 +90,9 @@ const Header = ({ user }: { user: User | null }) => {
                   <DropdownMenuContent>
                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <Link to="/progress">
+                    <Link to="/recent">
                       <DropdownMenuItem>
-                        Progress <ShoppingBag />
+                        Recent <ShoppingBag />
                       </DropdownMenuItem>
                     </Link>
                     <Link to='/orders'>

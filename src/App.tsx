@@ -20,7 +20,7 @@ const SearchProduct = lazy(() => import("./pages/SearchProduct"));
 const Cart = lazy(() => import("./pages/Cart"));
 const ShoppingInfo = lazy(() => import("./pages/ShoppingInfo"));
 const Orders = lazy(() => import("./pages/OrderDetails"));
-const Progress = lazy(() => import("./pages/Progress"));
+const Recent = lazy(() => import("./pages/Recent"));
 const ProductDetail = lazy(() => import("./pages/ProductDetail"));
 
 function App() {
@@ -75,10 +75,10 @@ function App() {
               }
             />
             <Route
-              path="/progress/:orderId"
+              path="/Recent"
               element={
                 <ProtectedRoute isAuthoticate={user ? true : false}>
-                  <Progress />
+                  <Recent />
                 </ProtectedRoute>
               }
             />
