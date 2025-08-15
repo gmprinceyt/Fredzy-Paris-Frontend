@@ -14,7 +14,7 @@ import type {
   UserReducerInitailState,
 } from "@/types/reducer";
 import { useNavigate } from "react-router";
-import { useEffect, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import type {
   CreateOrderRequestQuery,
   CreatePaymentOrderResponse,
@@ -87,7 +87,7 @@ const ShoppingInfo = () => {
             dispatch(clearCart())
 
 
-            navigate("/orders");
+            navigate("/Recent");
             setLoading(false);
           } catch (err) {
             setLoading(false);
@@ -119,8 +119,8 @@ const ShoppingInfo = () => {
       try {
         setLoading(true);
         console.log("Shipping info:", formData);
-
-        const paymentOrderData = await paymentOrder({ amount: total }).unwrap();
+        const amount =  Number(total);
+        const paymentOrderData = await paymentOrder({ amount}).unwrap();
 
         // Save shipping info to Redux
         dispatch(updateShippingInfo(formData));
@@ -136,9 +136,6 @@ const ShoppingInfo = () => {
     [dispatch, handlePaymentVerify, paymentOrder, total]
   );
 
-  useEffect(() => {
-    if (cartItems.length < 1) navigate("/cart");
-  }, [cartItems, navigate]);
 
   return (
     <div className="max-w-[1280px] m-auto px-3 font-[Geist]  ">

@@ -25,15 +25,13 @@ import { server } from "@/redux/store";
 import { Badge } from "@/components/ui/badge";
 import toast from "react-hot-toast";
 const TrackOrders = ({ url }: { url?: string }) => {
-  const { orderId } = useParams();
-  let urllink: string;
-  if (orderId) {
-    urllink = orderId;
-  } else {
-    urllink = url;
-  }
+const { orderId } = useParams<{ orderId?: string }>();
+  const urllink = orderId ?? url ?? ""; // Fallback empty string
 
-  const { data, isLoading, isError } = useGetSingleOrderQuery(urllink);
+  console.log(urllink)
+  const { data, isLoading, isError } = useGetSingleOrderQuery(urllink, {
+    skip: !urllink,
+  });
   const { user } = useSelector(
     (state: { userReducer: UserReducerInitailState }) => state.userReducer
   );

@@ -57,7 +57,7 @@ export default function Component() {
                   return (
                     <TableRow key={data._id}>
                       <TableCell className="font-medium">
-                        {data._id.slice(0, 4).toUpperCase()}
+                        {data?._id.slice(0, 4).toUpperCase()}
                       </TableCell>
                       <TableCell>
                         {new Date(data.createdAt).toDateString()}
@@ -81,7 +81,7 @@ export default function Component() {
                       </TableCell>
                       <TableCell className="text-right">
                         <Button
-                          onClick={() => navigate(`/progress/${data._id}`)}
+                          onClick={() => navigate(`/order/${data._id}`)}
                           variant="link"
                         >
                           View

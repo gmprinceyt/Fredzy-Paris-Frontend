@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "react-hot-toast";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import type { FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
 import { FcGoogle } from "react-icons/fc";
-import { ChevronDownIcon } from "lucide-react";
+import { ChevronDownIcon, Loader } from "lucide-react";
 
 import { auth } from "../firebase";
 import { useLoginMutation } from "@/redux/api/userApi";
@@ -29,14 +29,17 @@ const Login = () => {
   const [open, setOpen] = useState(false);
   const [dob, setDob] = useState<Date | undefined>(undefined);
   const [gender, setGender] = useState<string>("");
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
   const [login] = useLoginMutation();
 
-  const handleGoogleLogin = async () => {
+  const handleGoogleLogin = useCallback(async () => {
     if (!gender || !dob) {
       toast.error("Please select your gender and date of birth.");
       return;
     }
+    setLoading(true);
 
     try {
       const provider = new GoogleAuthProvider();
@@ -52,80 +55,96 @@ const Login = () => {
       });
 
       if ("data" in res) {
+        setLoading(false);
         toast.success(`Welcome ${user.displayName || "User"}`);
         navigate("/");
       } else {
         const error = res.error as FetchBaseQueryError;
         const errorMessage =
-          error.data && typeof error.data === "object" && "message" in error.data
+          error.data &&
+          typeof error.data === "object" &&
+          "message" in error.data
             ? (error.data as { message: string }).message
             : "An error occurred during login";
+        setLoading(false);
+
         toast.error(errorMessage);
       }
     } catch {
+      setLoading(false);
+
       toast.error("Failed to sign in with Google");
     }
-  };
+  }, [dob, gender, login, navigate]);
 
   return (
     <div className="max-w-[1280px] m-auto min-h-screen ">
-    <div className="absolute top-1/2  left-1/2 -translate-x-1/2 -translate-y-1/2 p-4 gap-4 border rounded-xl w-xs bg-white dark:bg-black shadow font-[Geist]">
-      <h1 className="text-2xl font-bold mb-4">Login or Create Account</h1>
+      <div className="absolute top-1/2  left-1/2 -translate-x-1/2 -translate-y-1/2 p-4 gap-4 border rounded-xl w-xs bg-white dark:bg-black shadow font-[Geist]">
+        <h1 className="text-2xl font-bold mb-4">Login or Create Account</h1>
 
-      {/* Gender Selection */}
-      <div className="flex flex-col gap-3 mb-4">
-        <Label className="px-1 text-base ">Select Gender</Label>
-        <Select onValueChange={setGender}>
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="Select Gender" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="male">Male</SelectItem>
-            <SelectItem value="female">Female</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
+        {/* Gender Selection */}
+        <div className="flex flex-col gap-3 mb-4">
+          <Label className="px-1 text-base ">Select Gender</Label>
+          <Select onValueChange={setGender}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select Gender" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="male">Male</SelectItem>
+              <SelectItem value="female">Female</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
 
-      {/* Date of Birth Picker */}
-      <div className="flex flex-col gap-3 mb-4">
-        <Label htmlFor="dob" className="px-1 text-base">
-          Date of Birth
-        </Label>
-        <Popover open={open} onOpenChange={setOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              id="dob"
-              className="w-full justify-between font-normal"
+        {/* Date of Birth Picker */}
+        <div className="flex flex-col gap-3 mb-4">
+          <Label htmlFor="dob" className="px-1 text-base">
+            Date of Birth
+          </Label>
+          <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                id="dob"
+                className="w-full justify-between font-normal"
+              >
+                {dob ? dob.toLocaleDateString() : "Select date"}
+                <ChevronDownIcon />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent
+              className="w-auto overflow-hidden p-0"
+              align="start"
             >
-              {dob ? dob.toLocaleDateString() : "Select date"}
-              <ChevronDownIcon />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto overflow-hidden p-0" align="start">
-            <Calendar
-              mode="single"
-              selected={dob}
-              captionLayout="dropdown"
-              onSelect={(selectedDate) => {
-                setDob(selectedDate || undefined);
-                setOpen(false);
-              }}
-            />
-          </PopoverContent>
-        </Popover>
-      </div>
+              <Calendar
+                mode="single"
+                selected={dob}
+                captionLayout="dropdown"
+                onSelect={(selectedDate) => {
+                  setDob(selectedDate || undefined);
+                  setOpen(false);
+                }}
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
 
-      {/* Google Login Button */}
-      <Button
-        onClick={handleGoogleLogin}
-        disabled={!gender || !dob}
-        className="gap-2 w-full"
-      >
-        <FcGoogle size={20} />
-        Sign in with Google
-      </Button>
-    </div>
+        {/* Google Login Button */}
+        <Button
+          onClick={handleGoogleLogin}
+          disabled={!gender || !dob}
+          className="gap-2 w-full"
+        >
+          {loading ? (
+            <Loader className="animate-spin" size={30} />
+          ) : (
+            <span className="flex gap-1">
+              <FcGoogle size={20} />
+              "Sign in with Google"
+            </span>
+          )}
+        </Button>
+      </div>
     </div>
   );
 };

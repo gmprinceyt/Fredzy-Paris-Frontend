@@ -51,7 +51,7 @@ export const cartReducer = createSlice({
       state.total =
         state.tax + state.subtotal + state.shippingCharges - state.discount;
     },
-    reduceDiscount: (state, action: PayloadAction<number>) => {
+    SetDiscount: (state, action: PayloadAction<number>) => {
       state.discount = action.payload;
     },
     updateShippingInfo: (state, action: PayloadAction<ShippingInfo>) => {
@@ -65,7 +65,7 @@ export const {
   addToCart,
   removeCartItem,
   updateCartDetails,
-  reduceDiscount,
+  SetDiscount,
   updateShippingInfo,
   clearCart
 } = cartReducer.actions;

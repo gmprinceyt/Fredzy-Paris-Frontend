@@ -22,6 +22,7 @@ const ShoppingInfo = lazy(() => import("./pages/ShoppingInfo"));
 const Orders = lazy(() => import("./pages/OrderDetails"));
 const Recent = lazy(() => import("./pages/Recent"));
 const ProductDetail = lazy(() => import("./pages/ProductDetail"));
+const TrackOrder = lazy(() => import("./components/sections/TrackOrders"));
 
 function App() {
   const dispatch = useDispatch();
@@ -85,6 +86,7 @@ function App() {
             <Route path="/search" element={<SearchProduct />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/product/:productId" element={<ProductDetail/>} />
+            <Route path="/order/:orderId" element={<TrackOrder/>} />
           </Routes>
         </ThemeProvider>
       </BrowserRouter>

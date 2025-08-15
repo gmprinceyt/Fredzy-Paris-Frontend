@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type {MessageResponse,  UserResponse } from "@/types/api-types";
+import type { MessageResponse, UserResponse } from "@/types/api-types";
 import type { User } from "@/types/types";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -27,8 +27,11 @@ export const getUser = async (id: string) => {
     );
     return data.data;
   } catch (error) {
-    if (error?.message === 'Network Error') return toast.error("Kindly Connect your Internet")
-    toast.error("User Can'nt Find!")
+    const err = error as Error;
+    if (err.message === "Network Error") {
+      return toast.error("Kindly Connect your Internet");
+    }
+    toast.error("User Can't Find!");
   }
 };
 

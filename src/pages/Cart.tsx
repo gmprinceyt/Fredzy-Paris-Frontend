@@ -26,17 +26,17 @@ import {
   Shield,
   ShoppingBasketIcon,
 } from "lucide-react";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState} from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
 
 const Cart = () => {
+  const [discount, setDiscount] = useState<number>(0)
   const {
     cartItems: items,
     subtotal,
     total,
-    discount,
     tax,
     shippingCharges,
   } = useSelector(
@@ -60,7 +60,7 @@ const Cart = () => {
 
   useEffect(() => {
     dispatch(updateCartDetails());
-  }, [dispatch, items, discount]);
+  }, [dispatch, items]);
 
   return (
     <div className="mx-auto w-full max-w-7xl p-6 font-[Geist]">
@@ -175,14 +175,7 @@ const Cart = () => {
                 {/* Promo Code */}
                 <div className="space-y-2">
                   <Label>Promo Code</Label>
-                  <Coupon />
-                  {discount ? (
-                    <span className="text-sm font-semibold text-green-400">
-                      You Got it Discount ₹{discount}
-                    </span>
-                  ) : (
-                    ""
-                  )}
+                  <Coupon total={total} setDiscount={setDiscount} />
                 </div>
 
                 {/* Order Summary */}
