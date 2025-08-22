@@ -9,7 +9,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { RiAccountCircleFill } from "react-icons/ri";
 import type { User } from "@/types/types";
 import { useCallback } from "react";
 import toast, { Toaster } from "react-hot-toast";
@@ -17,6 +16,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "@/firebase";
 import {
   LogIn,
+  User2,
   LogOut,
   LucideFileSpreadsheet,
   Search,
@@ -84,7 +84,7 @@ const Header = ({ user }: { user: User | null }) => {
                       className="relative"
                       variant={"outline"}
                     >
-                      <RiAccountCircleFill className="h-6 w-6" />
+                      <User2 className="h-6 w-6" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>

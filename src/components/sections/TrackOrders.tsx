@@ -28,7 +28,6 @@ const TrackOrders = ({ url }: { url?: string }) => {
 const { orderId } = useParams<{ orderId?: string }>();
   const urllink = orderId ?? url ?? ""; // Fallback empty string
 
-  console.log(urllink)
   const { data, isLoading, isError } = useGetSingleOrderQuery(urllink, {
     skip: !urllink,
   });
@@ -104,7 +103,7 @@ const { orderId } = useParams<{ orderId?: string }>();
                   <span>
                     Taxes <span className="text-muted-foreground">( 8% )</span>
                   </span>
-                  <span>₹{data.data.tax}</span>
+                  <span>₹{data.data.tax.toFixed()}</span>
                 </div>
                 <div className="flex justify-between font-medium border-t pt-5">
                   <span>Total</span>

@@ -3,7 +3,6 @@ import { useNavigate } from "react-router";
 import { toast } from "react-hot-toast";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import type { FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
-import { FcGoogle } from "react-icons/fc";
 import { ChevronDownIcon, Loader } from "lucide-react";
 
 import { auth } from "../firebase";
@@ -139,8 +138,18 @@ const Login = () => {
             <Loader className="animate-spin" size={30} />
           ) : (
             <span className="flex gap-1">
-              <FcGoogle size={20} />
-              "Sign in with Google"
+             <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+  >
+    <path fill="#4285F4" d="M21.35 11.1h-9.18v2.96h5.26c-.23 1.22-.92 2.25-1.96 2.94v2.44h3.18c1.87-1.72 2.95-4.25 2.95-7.19 0-.67-.06-1.31-.17-1.94z"/>
+    <path fill="#34A853" d="M12.17 21c2.64 0 4.85-.87 6.46-2.37l-3.18-2.44c-.88.59-2 1-3.28 1-2.52 0-4.66-1.7-5.42-3.99H3.44v2.5A8.82 8.82 0 0 0 12.17 21z"/>
+    <path fill="#FBBC05" d="M6.75 13.2a5.3 5.3 0 0 1 0-3.4V7.3H3.44a8.82 8.82 0 0 0 0 9.4l3.31-2.5z"/>
+    <path fill="#EA4335" d="M12.17 5.3c1.43 0 2.71.49 3.72 1.46l2.77-2.77C17.01 2.35 14.8 1.5 12.17 1.5A8.82 8.82 0 0 0 3.44 7.3l3.31 2.5c.76-2.29 2.9-3.99 5.42-3.99z"/>
+  </svg>
+  Continue with Google
             </span>
           )}
         </Button>

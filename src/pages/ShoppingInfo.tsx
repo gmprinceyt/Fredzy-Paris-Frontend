@@ -119,7 +119,7 @@ const ShoppingInfo = () => {
       try {
         setLoading(true);
         console.log("Shipping info:", formData);
-        const amount =  Number(total);
+        const amount = Math.ceil(total);
         const paymentOrderData = await paymentOrder({ amount}).unwrap();
 
         // Save shipping info to Redux

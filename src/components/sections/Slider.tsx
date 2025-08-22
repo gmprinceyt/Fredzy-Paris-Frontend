@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, ArrowRight, Star } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
+import { Link } from "react-router";
 
 interface Category {
   name: string;
@@ -25,7 +25,8 @@ export default function CarouselPreview() {
       name: "Luxury Watches",
       description:
         "Discover our collection of premium timepieces crafted with exceptional materials and precision engineering.",
-      image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30",
+      image:
+        "https://www.shutterstock.com/image-photo/trendy-beautiful-young-asian-woman-260nw-1590685858.jpg",
       productCount: 156,
       featured: true,
       rating: 4.9,
@@ -37,7 +38,8 @@ export default function CarouselPreview() {
       name: "Smart Watches",
       description:
         "Stay connected with cutting-edge technology. Advanced features meet sophisticated design.",
-      image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30",
+      image:
+        "https://coveti.com/wp-content/uploads/2023/10/Home-banner-mobile.webp",
       productCount: 89,
       featured: true,
 
@@ -50,7 +52,22 @@ export default function CarouselPreview() {
       name: "Classic Collection",
       description:
         "Timeless designs that never go out of style. Perfect for any occasion.",
-      image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30",
+      image:
+        "https://thumbs.dreamstime.com/b/saree-indian-dress-white-luxury-boutique-background-attire-fashion-store-festive-outfit-beautiful-bollywood-clothing-purple-386109277.jpg",
+      productCount: 112,
+      featured: true,
+
+      rating: 4.8,
+      reviewCount: 965,
+      priceRange: "$1,000 - $5,000",
+      tags: ["Classic", "Elegant", "Versatile"],
+    },
+    {
+      name: "Classic",
+      description:
+        "Timeless designs that never go out of style. Perfect for any occasion.",
+      image:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSubBoNMcxfgr2fZP1sf0hyAv7sjks-qagPPQ&s",
       productCount: 112,
       featured: true,
 
@@ -101,18 +118,19 @@ export default function CarouselPreview() {
               }`}
             >
               {/* Background Image */}
-              <div className="absolute inset-0">
-                <img
-                  src={category.image}
-                  alt={category.name}
-                  className="object-cover"
-                  sizes="(max-width: 1280px) 100vw, 1280px"
-                />
-                <div className="from-background/90 via-background/60 absolute inset-0 bg-gradient-to-r to-transparent" />
-              </div>
+              <Link to="/search">
+                <div className="absolute inset-0">
+                  <img
+                    src={category.image}
+                    alt={category.name}
+                    className="object-cover w-full h-full"
+                  />
+                  {/* <div className="from-background/90 via-background/60 absolute inset-0 bg-gradient-to-r to-transparent" /> */}
+                </div>
+              </Link>
 
               {/* Content */}
-              <div className="relative flex h-full px-2 py-1 ">
+              {/* <div className="relative flex h-full px-2 py-1 ">
                 <div className="w-full max-w-2xl lg:p-8 md:space-y-2">
                   {category.featured && (
                     <Badge
@@ -174,7 +192,7 @@ export default function CarouselPreview() {
                     </Button>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           ))}
         </div>
