@@ -54,8 +54,8 @@ const  ShippingReturns = () =>  {
                   <div className="space-y-3">
                     <h4 className="font-medium">Standard Shipping</h4>
                     <ul className="text-muted-foreground space-y-2">
-                      <li>• Free on orders over $75</li>
-                      <li>• $5.99 for orders under $75</li>
+                      <li>• Free on orders over ₹1500</li>
+                      <li>• ₹200 for orders under ₹1500</li>
                       <li>• 5-7 business days</li>
                       <li>• Tracking included</li>
                     </ul>
@@ -63,7 +63,6 @@ const  ShippingReturns = () =>  {
                   <div className="space-y-3">
                     <h4 className="font-medium">Express Shipping</h4>
                     <ul className="text-muted-foreground space-y-2">
-                      <li>• $12.99 flat rate</li>
                       <li>• 2-3 business days</li>
                       <li>• Priority handling</li>
                       <li>• Signature required</li>
