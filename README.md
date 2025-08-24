@@ -2,23 +2,6 @@
 
 A modern, responsive single-page application powering the public storefront of **Fredzy Paris**. This frontend app handles product catalogs, detail views, shopping cart UI, checkout flows, and initial integration points for authentication and payments.
 
-## Table of Contents
-
-- [Demo](#demo)  
-- [Features](#features)  
-- [Tech Stack](#tech-stack)  
-- [Getting Started](#getting-started)  
-  - [Prerequisites](#prerequisites)  
-  - [Installation](#installation)  
-  - [Running Locally](#running-locally)  
-  - [Building for Production](#building-for-production)  
-- [Configuration](#configuration)  
-- [Integration Points](#integration-points)  
-- [Contributing](#contributing)  
-- [License](#license)  
-
----
-
 ## Demo  
 Live version available at: `fredzy-paris-frontend.vercel.app` :contentReference[oaicite:0]{index=0}
 
@@ -53,3 +36,4 @@ Live version available at: `fredzy-paris-frontend.vercel.app` :contentReference[
 git clone https://github.com/gmprinceyt/Fredzy-Paris-Frontend.git
 cd Fredzy-Paris-Frontend
 npm install
+
