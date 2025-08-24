@@ -31,7 +31,6 @@ export const getUser = async (id: string) => {
     if (err.message === "Network Error") {
       return toast.error("Kindly Connect your Internet");
     }
-    toast.error("User Can't Find!");
   }
 };
 

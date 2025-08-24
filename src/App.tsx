@@ -31,15 +31,29 @@ function App() {
   );
 
   useEffect(() => {
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const data = await getUser(user.uid);
-        if (!data) return toast.error("User does not exist!");
-        dispatch(userExist(data as User));
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        try {
+          const data = await getUser(firebaseUser.uid);
+
+          if (!data) {
+            // User exists in Firebase but not in backend → redirect to complete profile
+            dispatch(userNotExist());
+            toast.error("Please complete your profile before continuing.");
+            // Optionally navigate to /login so user selects gender/dob
+          } else {
+            dispatch(userExist(data as User));
+          }
+        } catch (err) {
+          console.error(err);
+          toast.error("Error fetching user profile");
+        }
       } else {
         dispatch(userNotExist());
       }
     });
+
+    return () => unsubscribe();
   }, [dispatch]);
 
   return loading ? (
@@ -62,7 +76,11 @@ function App() {
             <Route
               path="/shoppinginfo"
               element={
-                <ProtectedRoute isAuthoticate={user ? true : false} message="Checkout" navigate="/cart">
+                <ProtectedRoute
+                  isAuthoticate={user ? true : false}
+                  message="Checkout"
+                  navigate="/cart"
+                >
                   <ShoppingInfo />
                 </ProtectedRoute>
               }
@@ -85,8 +103,8 @@ function App() {
             />
             <Route path="/search" element={<SearchProduct />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="/product/:productId" element={<ProductDetail/>} />
-            <Route path="/order/:orderId" element={<TrackOrder/>} />
+            <Route path="/product/:productId" element={<ProductDetail />} />
+            <Route path="/order/:orderId" element={<TrackOrder />} />
           </Routes>
         </ThemeProvider>
       </BrowserRouter>

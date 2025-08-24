@@ -4,10 +4,8 @@ import { toast } from "react-hot-toast";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import type { FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
 import { ChevronDownIcon, Loader } from "lucide-react";
-
 import { auth } from "../firebase";
 import { useLoginMutation } from "@/redux/api/userApi";
-
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Calendar } from "@/components/ui/calendar";
@@ -29,10 +27,10 @@ const Login = () => {
   const [dob, setDob] = useState<Date | undefined>(undefined);
   const [gender, setGender] = useState<string>("");
   const [loading, setLoading] = useState(false);
-
   const navigate = useNavigate();
   const [login] = useLoginMutation();
 
+  // 🔹 Handle Google Login
   const handleGoogleLogin = useCallback(async () => {
     if (!gender || !dob) {
       toast.error("Please select your gender and date of birth.");
@@ -40,8 +38,8 @@ const Login = () => {
     }
     setLoading(true);
 
+    const provider = new GoogleAuthProvider();
     try {
-      const provider = new GoogleAuthProvider();
       const { user } = await signInWithPopup(auth, provider);
 
       const res = await login({
@@ -49,41 +47,35 @@ const Login = () => {
         name: user.displayName ?? "",
         email: user.email ?? "",
         gender,
-        dob: dob.toISOString(), // Store in ISO format for consistency
+        dob: dob.toISOString(),
         photo: user.photoURL ?? "",
       });
 
       if ("data" in res) {
-        setLoading(false);
         toast.success(`Welcome ${user.displayName || "User"}`);
         navigate("/");
       } else {
-        const error = res.error as FetchBaseQueryError;
-        const errorMessage =
-          error.data &&
-          typeof error.data === "object" &&
-          "message" in error.data
-            ? (error.data as { message: string }).message
-            : "An error occurred during login";
-        setLoading(false);
-
-        toast.error(errorMessage);
+        const err = res.error as FetchBaseQueryError & {
+          data?: { message?: string };
+        };
+        toast.error(err.data?.message ?? "An error occurred during login");
       }
-    } catch {
-      setLoading(false);
-
+    } catch (error) {
+      console.error(error);
       toast.error("Failed to sign in with Google");
+    } finally {
+      setLoading(false);
     }
   }, [dob, gender, login, navigate]);
 
   return (
-    <div className="max-w-[1280px] m-auto min-h-screen ">
-      <div className="absolute top-1/2  left-1/2 -translate-x-1/2 -translate-y-1/2 p-4 gap-4 border rounded-xl w-xs bg-white dark:bg-black shadow font-[Geist]">
+    <div className="max-w-[1280px] m-auto min-h-screen">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-4 gap-4 border rounded-xl w-xs bg-white dark:bg-black shadow font-[Geist]">
         <h1 className="text-2xl font-bold mb-4">Login or Create Account</h1>
 
         {/* Gender Selection */}
         <div className="flex flex-col gap-3 mb-4">
-          <Label className="px-1 text-base ">Select Gender</Label>
+          <Label className="px-1 text-base">Select Gender</Label>
           <Select onValueChange={setGender}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select Gender" />
@@ -131,7 +123,7 @@ const Login = () => {
         {/* Google Login Button */}
         <Button
           onClick={handleGoogleLogin}
-          disabled={!gender || !dob}
+          disabled={loading || !gender || !dob}
           className="gap-2 w-full"
         >
           {loading ? (
